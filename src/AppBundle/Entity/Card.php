@@ -2,12 +2,13 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Service\IdGenerator\IdGenerator;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * User card for flat resources metrics to specific date
  * @ORM\Table(name="cards")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\CardRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\CardRepository")
  */
 class Card
 {
@@ -49,6 +50,21 @@ class Card
      */
     private $electricityNight;
 
+    public function __construct(
+        $waterHot,
+        $waterCold,
+        $electricityDay,
+        $electricityNight,
+        IdGenerator $idGenerator = null
+    ) {
+        $idGenerator = $idGenerator ?: new IdGenerator();
+        $this->id = $idGenerator->generateRandomId();
+        $this->createdAt = new \DateTimeImmutable();
+        $this->waterCold = $waterCold;
+        $this->waterHot = $waterHot;
+        $this->electricityDay = $electricityDay;
+        $this->electricityNight = $electricityNight;
+    }
 
     public function getId(): string
     {
