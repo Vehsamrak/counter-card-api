@@ -10,6 +10,12 @@ parameters:
     # You should uncomment this if you want to use pdo_sqlite
     #database_path: '%kernel.root_dir%/../var/data/data.sqlite'
 
+    database_host_dev: 127.0.0.1
+    database_port_dev: ~
+    database_name_dev: symfony
+    database_user_dev: root
+    database_password_dev: ~
+
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: ~
