@@ -17,14 +17,6 @@ class ApiController extends Controller
 {
 
     /**
-     * @Route("/", name="api_index")
-     */
-    public function indexAction()
-    {
-        return new JsonResponse();
-    }
-
-    /**
      * @Route("/card", name="api_create_card")
      * @Method("POST")
      * @return MandatoryParameterMissedResponse|JsonResponse
@@ -51,5 +43,18 @@ class ApiController extends Controller
         }
 
         return $response;
+    }
+
+    /**
+     * @Route("/card/last", name="api_last_card")
+     * @Method("GET")
+     * @return JsonResponse
+     */
+    public function lastAction(Request $request)
+    {
+        $cardRepository = $this->get('counter_card.card_repository');
+        $card = $cardRepository->findLast();
+
+        return new JsonResponse($card);
     }
 }

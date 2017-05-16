@@ -19,7 +19,18 @@ class ApiControllerTest extends WebTestCase
 
         $client->request(Request::METHOD_POST, '/api/card', $parameters);
 
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertEquals('{"error":"Mandatory parameter missed."}', $client->getResponse()->getContent());
+    }
+
+    /** @test */
+    public function GET_lastCardTime_200CodeAndDateOfLastCreatedCardReturned()
+    {
+        $client = static::createClient();
+        $parameters = [];
+
+        $client->request(Request::METHOD_GET, '/api/card/last', $parameters);
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 }

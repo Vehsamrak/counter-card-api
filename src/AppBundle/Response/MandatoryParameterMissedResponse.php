@@ -16,7 +16,7 @@ class MandatoryParameterMissedResponse extends JsonResponse
             $data = new JsonErrorMessage('Mandatory parameter missed.');
         }
 
-        parent::__construct('', 404, []);
+        parent::__construct('', 400, []);
 
         return $this->setData($data);
     }
