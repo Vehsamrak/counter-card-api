@@ -37,6 +37,8 @@ class ApiController extends Controller
             $cardRepository->persist($card);
             $cardRepository->flush();
 
+            $this->sendCardByMail($card);
+
             $response = new JsonResponse($card->getId());
         } else {
             $response = new MandatoryParameterMissedResponse();
@@ -61,5 +63,28 @@ class ApiController extends Controller
         ];
 
         return new JsonResponse($cardData);
+    }
+
+    private function sendCardByMail(Card $card): void
+    {
+        // TODO: change to actual flat number from User
+        $flatNumber = 1;
+        $message = \Swift_Message::newInstance()
+                                 ->setSubject(sprintf('Показания счетчиков квартиры №%d', $flatNumber))
+                                 ->setFrom('developesque@gmail.com')
+            // TODO: change to actual email of directing company
+                                 ->setTo('sirsmonkl@gmail.com')
+                                 ->setBody(
+                                     $this->renderView(
+                                         'AppBundle:Mail:counterCard.html.twig',
+                                         [
+                                             'card'       => $card,
+                                             'flatNumber' => $flatNumber,
+                                         ]
+                                     ),
+                                     'text/html'
+                                 );
+
+        $this->get('mailer')->send($message);
     }
 }
