@@ -55,6 +55,11 @@ class ApiController extends Controller
         $cardRepository = $this->get('counter_card.card_repository');
         $card = $cardRepository->findLast();
 
-        return new JsonResponse($card);
+        $cardData = [
+            'id'         => $card->getId(),
+            'created_at' => $card->getCreatedAt()->format('Y-m-d H:i:s'),
+        ];
+
+        return new JsonResponse($cardData);
     }
 }

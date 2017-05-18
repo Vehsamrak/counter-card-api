@@ -21,7 +21,7 @@ class Card
     private $id;
 
     /**
-     * @var \DateTimeImmutable
+     * @var \DateTime
      * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
@@ -73,7 +73,7 @@ class Card
 
     public function getCreatedAt(): \DateTimeImmutable
     {
-        return $this->createdAt;
+        return \DateTimeImmutable::createFromMutable($this->createdAt);
     }
 
     public function setCreatedAt(\DateTime $createdAt): void
