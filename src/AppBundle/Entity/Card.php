@@ -73,7 +73,13 @@ class Card
 
     public function getCreatedAt(): \DateTimeImmutable
     {
-        return \DateTimeImmutable::createFromMutable($this->createdAt);
+        $createdAt = $this->createdAt;
+
+        if (!$createdAt instanceof \DateTimeImmutable) {
+            $createdAt = \DateTimeImmutable::createFromMutable($createdAt);
+        }
+
+        return $createdAt;
     }
 
     public function setCreatedAt(\DateTime $createdAt): void

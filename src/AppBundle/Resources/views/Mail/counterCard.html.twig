@@ -1,9 +1,9 @@
 <h2>Показания счетчиков</h2>
 <h4>Квартира №{{ flatNumber }}</h4>
 
-<p>Электричество, день: {{ card.electricityDay }}</p>
-<p>Электричество, ночь: {{ card.electricityNight }}</p>
-<p>Вода, горячая: {{ card.waterHot }}</p>
-<p>Вода, холодная: {{ card.waterCold }}</p>
+<p>Электричество, день: <strong>{{ card.electricityDay }}</strong></p>
+<p>Электричество, ночь: <strong>{{ card.electricityNight }}</strong></p>
+<p>Вода, горячая: <strong>{{ card.waterHot }}</strong></p>
+<p>Вода, холодная: <strong>{{ card.waterCold }}</strong></p>
 
 <p>Дата сбора показаний: {{ card.createdAt.format('Y-m-d H:i') }}</p>
