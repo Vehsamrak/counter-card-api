@@ -14,7 +14,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface
 {
 
-    const TOKEN_LENGTH = 32;
+    private const TOKEN_LENGTH = 32;
+    private const ROLE_USER = 'ROLE_USER';
 
     /**
      * @var string
@@ -34,6 +35,13 @@ class User implements UserInterface
      * @ORM\Column(name="email", type="string", length=255, nullable=true, unique=true)
      */
     private $email;
+
+
+    /**
+     * @var integer
+     * @ORM\Column(name="flat", type="smallint", length=5, nullable=false, unique=true)
+     */
+    private $flatNumber;
 
     /**
      * @var string
@@ -58,12 +66,16 @@ class User implements UserInterface
 
     public function __construct(
         string $name,
+        int $flatNumber,
         string $email = null,
         IdGenerator $idGenerator = null
     ) {
         $this->idGenerator = $idGenerator ?: new IdGenerator();
         $this->id = $idGenerator->generateUuid();
         $this->registrationDate = new \DateTime();
+        $this->name = $name;
+        $this->flatNumber = $flatNumber;
+        $this->email = $email;
     }
 
     public function getId(): string
@@ -77,7 +89,7 @@ class User implements UserInterface
         return array_merge(
             $this->roles,
             [
-                'ROLE_USER',
+                self::ROLE_USER,
             ]
         );
     }
