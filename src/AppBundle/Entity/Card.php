@@ -27,34 +27,34 @@ class Card
     private $createdAt;
 
     /**
-     * @var int
-     * @ORM\Column(name="water_cold", type="integer")
+     * @var float
+     * @ORM\Column(name="water_cold", type="float")
      */
     private $waterCold;
 
     /**
-     * @var int
-     * @ORM\Column(name="water_hot", type="integer")
+     * @var float
+     * @ORM\Column(name="water_hot", type="float")
      */
     private $waterHot;
 
     /**
-     * @var int
-     * @ORM\Column(name="electricity_day", type="integer")
+     * @var float
+     * @ORM\Column(name="electricity_day", type="float")
      */
     private $electricityDay;
 
     /**
-     * @var int
-     * @ORM\Column(name="electricity_night", type="integer")
+     * @var float
+     * @ORM\Column(name="electricity_night", type="float")
      */
     private $electricityNight;
 
     public function __construct(
-        $waterHot,
-        $waterCold,
-        $electricityDay,
-        $electricityNight,
+        float $waterHot,
+        float $waterCold,
+        float $electricityDay,
+        float $electricityNight,
         IdGenerator $idGenerator = null
     ) {
         $idGenerator = $idGenerator ?: new IdGenerator();
@@ -87,42 +87,42 @@ class Card
         $this->createdAt = $createdAt;
     }
 
-    public function getWaterCold(): int
+    public function getWaterCold(): float
     {
         return $this->waterCold;
     }
 
-    public function setWaterCold(int $waterCold): void
+    public function setWaterCold(float $waterCold): void
     {
         $this->waterCold = $waterCold;
     }
 
-    public function getWaterHot(): int
+    public function getWaterHot(): float
     {
         return $this->waterHot;
     }
 
-    public function setWaterHot(int $waterHot): void
+    public function setWaterHot(float $waterHot): void
     {
         $this->waterHot = $waterHot;
     }
 
-    public function getElectricityDay(): int
+    public function getElectricityDay(): float
     {
         return $this->electricityDay;
     }
 
-    public function setElectricityDay(int $electricityDay): void
+    public function setElectricityDay(float $electricityDay): void
     {
         $this->electricityDay = $electricityDay;
     }
 
-    public function getElectricityNight(): int
+    public function getElectricityNight(): float
     {
         return $this->electricityNight;
     }
 
-    public function setElectricityNight(int $electricityNight): void
+    public function setElectricityNight(float $electricityNight): void
     {
         $this->electricityNight = $electricityNight;
     }

@@ -26,10 +26,10 @@ class ApiController extends Controller
         $requestContentsJson = $request->getContent();
         $requestContents = json_decode($requestContentsJson, true);
 
-        $waterHot = $requestContents['waterHot'];
-        $waterCold = $requestContents['waterCold'];
-        $electricityDay = $requestContents['electricityDay'];
-        $electricityNight = $requestContents['electricityNight'];
+        $waterHot = $this->formatFloatNumber($requestContents['waterHot']);
+        $waterCold = $this->formatFloatNumber($requestContents['waterCold']);
+        $electricityDay = $this->formatFloatNumber($requestContents['electricityDay']);
+        $electricityNight = $this->formatFloatNumber($requestContents['electricityNight']);
 
         if ($waterHot && $waterCold && $electricityDay && $electricityNight) {
             $card = new Card($waterHot, $waterCold, $electricityDay, $electricityNight);
@@ -71,9 +71,11 @@ class ApiController extends Controller
         $flatNumber = 1;
         $message = \Swift_Message::newInstance()
                                  ->setSubject(sprintf('Показания счетчиков квартиры №%d', $flatNumber))
+            // TODO[petr]: move to configuration parameters
                                  ->setFrom('developesque@gmail.com')
-            // TODO: change to actual email of directing company
-                                 ->setTo('sirsmonkl@gmail.com')
+            // TODO[petr]: move to configuration parameters
+                                 ->setTo('atlanta64k9@yandex.ru')
+            // TODO[petr]: email of sender if exist to BCC (blind copy)
                                  ->setBody(
                                      $this->renderView(
                                          'AppBundle:Mail:counterCard.html.twig',
@@ -86,5 +88,14 @@ class ApiController extends Controller
                                  );
 
         $this->get('mailer')->send($message);
+    }
+
+    /**
+     * @param string|int|float $rawFloatNumber
+     * @return float
+     */
+    private function formatFloatNumber($rawFloatNumber): float
+    {
+        return floatval(str_replace(',', '.', $rawFloatNumber));
     }
 }
