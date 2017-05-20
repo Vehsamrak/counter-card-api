@@ -7,8 +7,15 @@ parameters:
 services:
     id_generator:
         class: AppBundle\Service\IdGenerator\IdGenerator
+    token_authenticator:
+        class: AppBundle\Service\Security\TokenAuthenticator
+        arguments: ['@counter_card.user_repository']
 
     # Repositories
+    counter_card.user_repository:
+        class: AppBundle\Entity\Repository\UserRepository
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: ['AppBundle\Entity\User']
     counter_card.card_repository:
         class: AppBundle\Entity\Repository\CardRepository
         factory: ['@doctrine.orm.entity_manager', 'getRepository']

@@ -58,7 +58,7 @@ class Card
         IdGenerator $idGenerator = null
     ) {
         $idGenerator = $idGenerator ?: new IdGenerator();
-        $this->id = $idGenerator->generateRandomId();
+        $this->id = $idGenerator->generateUuid();
         $this->createdAt = new \DateTimeImmutable();
         $this->waterCold = $waterCold;
         $this->waterHot = $waterHot;
