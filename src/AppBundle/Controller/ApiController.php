@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/api")
  * @Security("has_role('ROLE_USER')")
  */
 class ApiController extends Controller

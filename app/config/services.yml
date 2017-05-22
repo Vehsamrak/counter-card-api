@@ -7,6 +7,9 @@ parameters:
 services:
     id_generator:
         class: AppBundle\Service\IdGenerator\IdGenerator
+    counter_card.user_registrator:
+        class: AppBundle\Service\Security\UserRegistrator
+        arguments: ['@counter_card.user_repository', '@id_generator']
     token_authenticator:
         class: AppBundle\Service\Security\TokenAuthenticator
         arguments: ['@counter_card.user_repository']
