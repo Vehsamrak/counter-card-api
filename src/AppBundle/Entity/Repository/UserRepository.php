@@ -31,4 +31,16 @@ class UserRepository extends AbstractRepository
             ]
         );
     }
+
+    /**
+     * @return User|object|null
+     */
+    public function findUserByEmail(string $email)
+    {
+        return $this->findOneBy(
+            [
+                'email' => $email,
+            ]
+        );
+    }
 }
