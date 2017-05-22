@@ -32,7 +32,7 @@ class User implements UserInterface
 
     /**
      * @var string
-     * @ORM\Column(name="email", type="string", length=255, nullable=true, unique=true)
+     * @ORM\Column(name="email", type="string", length=255, unique=true)
      */
     private $email;
 
@@ -65,9 +65,9 @@ class User implements UserInterface
     private $idGenerator;
 
     public function __construct(
+        string $email,
         string $name,
         int $flatNumber,
-        string $email = null,
         IdGenerator $idGenerator = null
     ) {
         $this->idGenerator = $idGenerator ?: new IdGenerator();
