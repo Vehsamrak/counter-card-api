@@ -18,11 +18,11 @@ class UserRegistrator
 
     public function __construct(
         UserRepository $userRepository,
-        IdGenerator $idGenerator = null
+        IdGenerator $idGenerator
     )
     {
         $this->userRepository = $userRepository;
-        $this->idGenerator = $idGenerator ?? new IdGenerator();
+        $this->idGenerator = $idGenerator;
     }
 
     public function registerUser(string $email, string $name, int $flatNumber): User
