@@ -8,8 +8,18 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @author Vehsamrak
  */
-class ApiControllerTest extends WebTestCase
+class CardControllerTest extends WebTestCase
 {
+
+    /** @test */
+    public function GET_indexPage_401CodeReturned()
+    {
+        $client = static::createClient();
+
+        $client->request(Request::METHOD_POST, '/api/card');
+
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+    }
 
     /** @test */
     public function GET_indexPage_404CodeReturned()

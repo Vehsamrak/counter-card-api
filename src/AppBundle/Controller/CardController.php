@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @Security("has_role('ROLE_USER')")
  */
-class ApiController extends Controller
+class CardController extends Controller
 {
 
     /**
