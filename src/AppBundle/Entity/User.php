@@ -19,14 +19,14 @@ class User implements UserInterface
 
     /**
      * @var string
-     * @ORM\Column(name="id", type="string", length=255, nullable=false)
+     * @ORM\Column(name="id", type="string", length=255)
      * @ORM\Id
      */
     protected $id;
 
     /**
      * @var string
-     * @ORM\Column(name="name", type="string", length=255, nullable=false, unique=true)
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
@@ -39,19 +39,19 @@ class User implements UserInterface
 
     /**
      * @var integer
-     * @ORM\Column(name="flat", type="smallint", length=5, nullable=false, unique=true)
+     * @ORM\Column(name="flat", type="smallint", length=5, unique=true)
      */
     private $flatNumber;
 
     /**
      * @var string
-     * @ORM\Column(name="token", type="string", length=32, nullable=false, unique=true)
+     * @ORM\Column(name="token", type="string", length=32, unique=true)
      */
     private $token;
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="registration_date", type="datetime", nullable=false)
+     * @ORM\Column(name="registration_date", type="datetime")
      */
     private $registrationDate;
 
@@ -72,6 +72,7 @@ class User implements UserInterface
     ) {
         $this->idGenerator = $idGenerator ?: new IdGenerator();
         $this->id = $idGenerator->generateUuid();
+        $this->token = $idGenerator->generateString();
         $this->registrationDate = new \DateTime();
         $this->name = $name;
         $this->flatNumber = $flatNumber;
