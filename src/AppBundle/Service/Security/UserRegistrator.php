@@ -4,6 +4,7 @@ namespace AppBundle\Service\Security;
 
 use AppBundle\Entity\Repository\UserRepository;
 use AppBundle\Entity\User;
+use AppBundle\Exception\UserExists;
 use AppBundle\Service\IdGenerator\IdGenerator;
 
 /**
@@ -25,15 +26,18 @@ class UserRegistrator
         $this->idGenerator = $idGenerator;
     }
 
+    /**
+     * @throws UserExists
+     */
     public function registerUser(string $email, string $name, int $flatNumber): User
     {
-        $user = $this->userRepository->findUserByEmail($email);
-
-        if (!$user) {
-        	$user = new User($email, $name, $flatNumber, $this->idGenerator);
-        	$this->userRepository->persist($user);
-        	$this->userRepository->flush();
+        if ($this->userRepository->findUserByEmailOrFlatNumber($email, $flatNumber)) {
+        	throw new UserExists();
         }
+
+        $user = new User($email, $name, $flatNumber, $this->idGenerator);
+        $this->userRepository->persist($user);
+        $this->userRepository->flush();
 
         return $user;
     }

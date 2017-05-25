@@ -43,4 +43,25 @@ class UserRepository extends AbstractRepository
             ]
         );
     }
+
+    /**
+     * @return User|object|null
+     */
+    public function findUserByEmailOrFlatNumber(string $email, int $flatNumber)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $q = $qb->select('u')
+            ->from('AppBundle:User', 'u')
+            ->where('u.email = :email')
+            ->orWhere('u.flatNumber = :flatNumber')
+            ->setParameters([
+                'email' => $email,
+                'flatNumber' => $flatNumber,
+            ])
+            ->getQuery();
+
+        return $q->getOneOrNullResult();
+    }
 }

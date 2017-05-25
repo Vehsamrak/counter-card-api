@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Exception\UserExists;
+use AppBundle\Response\AlreadyExistsResponse;
 use AppBundle\Response\MandatoryParameterMissedResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -23,19 +25,35 @@ class AuthController extends Controller
     {
         $requestContentsJson = $request->getContent();
         $requestContents = json_decode($requestContentsJson, true);
+        $requestParameters = $request->request->all();
 
-        $email = $requestContents['email'];
-        $name = $requestContents['name'];
-        $flatNumber = $requestContents['flatNumber'];
+        $email = $requestContents['email'] ?? $requestParameters['email'];
+        $name = $requestContents['name'] ?? $requestParameters['name'];
+        $flatNumber = $requestContents['flatNumber'] ?? $requestParameters['flatNumber'];
 
         if ($email && $name && $flatNumber) {
             $userRegistrator = $this->get('counter_card.user_registrator');
-            $user = $userRegistrator->registerUser($email, $name, $flatNumber);
-        	$response = new JsonResponse($user);
+
+            try {
+                $user = $userRegistrator->registerUser($email, $name, $flatNumber);
+                $response = new JsonResponse($user->getToken());
+            } catch (UserExists $exception) {
+                $response = new AlreadyExistsResponse('User with this email of flat number already exists.');
+            }
         } else {
             $response = new MandatoryParameterMissedResponse();
         }
 
         return $response;
+    }
+
+    /**
+     * @Route("/login", name="api_login")
+     * @Method("GET")
+     * @return JsonResponse
+     */
+    public function loginAction(Request $request)
+    {
+
     }
 }
