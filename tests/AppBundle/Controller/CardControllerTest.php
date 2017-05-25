@@ -2,13 +2,13 @@
 
 namespace Tests\AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Tests\RestTestCase;
 
 /**
  * @author Vehsamrak
  */
-class CardControllerTest extends WebTestCase
+class CardControllerTest extends RestTestCase
 {
 
     /** @test */
@@ -24,7 +24,7 @@ class CardControllerTest extends WebTestCase
     /** @test */
     public function GET_indexPage_404CodeReturned()
     {
-        $client = static::createClient();
+        $client = static::createAuthenticatedClient();
         $parameters = ['test' => 1];
 
         $client->request(Request::METHOD_POST, '/api/card', $parameters);
@@ -36,7 +36,7 @@ class CardControllerTest extends WebTestCase
     /** @test */
     public function GET_lastCardTime_200CodeAndDateOfLastCreatedCardReturned()
     {
-        $client = static::createClient();
+        $client = static::createAuthenticatedClient();
         $parameters = [];
 
         $client->request(Request::METHOD_GET, '/api/card/last', $parameters);
