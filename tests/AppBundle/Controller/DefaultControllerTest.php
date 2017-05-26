@@ -2,20 +2,17 @@
 
 namespace Tests\AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Request;
+use Tests\RestTestCase;
 
 /** {@inheritDoc} */
-class DefaultControllerTest extends WebTestCase
+class DefaultControllerTest extends RestTestCase
 {
 
     /** @test */
-    public function GET_indexPage_200CodeReturned()
+    public function GET_index_200()
     {
-        $client = static::createClient();
+        $this->sendGetRequest('/');
 
-        $client->request(Request::METHOD_GET, '/');
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $this->getResponseCode());
     }
 }

@@ -12,7 +12,7 @@ class CardControllerTest extends RestTestCase
 {
 
     /** @test */
-    public function GET_indexPage_401CodeReturned()
+    public function GET_card_401()
     {
         $client = static::createClient();
 
@@ -22,25 +22,21 @@ class CardControllerTest extends RestTestCase
     }
 
     /** @test */
-    public function GET_indexPage_404CodeReturned()
+    public function POST_card_400()
     {
-        $client = static::createAuthenticatedClient();
         $parameters = ['test' => 1];
 
-        $client->request(Request::METHOD_POST, '/api/card', $parameters);
+        $this->sendPostRequest('/api/card', $parameters);
 
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"error":"Mandatory parameter missed."}', $client->getResponse()->getContent());
+        $this->assertEquals(400, $this->getResponseCode());
+        $this->assertEquals('{"error":"Mandatory parameter missed."}', $this->getResponseContents());
     }
 
     /** @test */
-    public function GET_lastCardTime_200CodeAndDateOfLastCreatedCardReturned()
+    public function GET_cardLast_200AndDateOfLastCreatedCardReturned()
     {
-        $client = static::createAuthenticatedClient();
-        $parameters = [];
+        $this->sendGetRequest('/api/card/last');
 
-        $client->request(Request::METHOD_GET, '/api/card/last', $parameters);
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $this->getResponseCode());
     }
 }
