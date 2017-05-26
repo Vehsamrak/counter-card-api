@@ -23,7 +23,7 @@ class UserRepository extends AbstractRepository
     /**
      * @return User|object|null
      */
-    public function findUserByToken(string $token)
+    public function findOneByToken(string $token)
     {
         return $this->findOneBy(
             [
@@ -35,7 +35,7 @@ class UserRepository extends AbstractRepository
     /**
      * @return User|object|null
      */
-    public function findUserByEmail(string $email)
+    public function findOneByEmail(string $email)
     {
         return $this->findOneBy(
             [
@@ -47,7 +47,7 @@ class UserRepository extends AbstractRepository
     /**
      * @return User|object|null
      */
-    public function findUserByEmailOrFlatNumber(string $email, int $flatNumber)
+    public function findOneByEmailOrFlatNumber(string $email, int $flatNumber)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();

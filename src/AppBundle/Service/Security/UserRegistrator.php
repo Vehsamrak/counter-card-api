@@ -31,7 +31,7 @@ class UserRegistrator
      */
     public function registerUser(string $email, string $name, int $flatNumber): User
     {
-        if ($this->userRepository->findUserByEmailOrFlatNumber($email, $flatNumber)) {
+        if ($this->userRepository->findOneByEmailOrFlatNumber($email, $flatNumber)) {
         	throw new UserExists();
         }
 

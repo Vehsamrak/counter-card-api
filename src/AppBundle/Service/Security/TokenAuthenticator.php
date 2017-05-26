@@ -47,7 +47,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $token = $credentials['token'];
-        $user = $this->userRepository->findUserByToken($token);
+        $user = $this->userRepository->findOneByToken($token);
 
         if (!$user) {
             throw new CustomUserMessageAuthenticationException(
@@ -63,7 +63,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     {
         $data = [
             'errors' => [
-                sprintf('Authentication required. Use header "%s" with user token.', self::TOKEN_HEADER),
+                sprintf('Authorization required. Use header "%s" with user token.', self::TOKEN_HEADER),
             ],
         ];
 
