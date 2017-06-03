@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use AppBundle\Service\IdGenerator\IdGenerator;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -46,6 +47,7 @@ class User implements UserInterface
     /**
      * @var string
      * @ORM\Column(name="token", type="string", length=32, unique=true)
+     * @Serializer\Exclude
      */
     private $token;
 
@@ -58,6 +60,7 @@ class User implements UserInterface
     /**
      * @var array
      * @ORM\Column(name="roles", type="simple_array", nullable=true)
+     * @Serializer\Exclude
      */
     private $roles;
 
