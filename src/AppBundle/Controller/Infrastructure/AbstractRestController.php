@@ -23,11 +23,13 @@ abstract class AbstractRestController extends Controller
 
         if ($response instanceof JsonResponse) {
             $serializedData = $serializer->serialize($response->getContent(), self::FORMAT_JSON);
+            $statusCode = $response->getStatusCode();
         } else {
             $serializedData = $this->serialize($response);
+            $statusCode = JsonResponse::HTTP_OK;
         }
 
-        $response = new Response($serializedData, JsonResponse::HTTP_OK, ['Content-Type' => 'application/json']);
+        $response = new Response($serializedData, $statusCode, ['Content-Type' => 'application/json']);
 
         return $response;
     }
