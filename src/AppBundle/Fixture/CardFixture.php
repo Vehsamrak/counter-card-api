@@ -3,6 +3,7 @@
 namespace AppBundle\Fixture;
 
 use AppBundle\Entity\Card;
+use AppBundle\Service\DateTimeFactory\DateTimeFactory;
 use AppBundle\Service\IdGenerator\IdGenerator;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -16,16 +17,10 @@ class CardFixture implements FixtureInterface
     /** {@inheritDoc} */
     public function load(ObjectManager $manager)
     {
-        $card = new Card(
-            1.1, 2.2, 3.3, 4.4, new class extends IdGenerator
-               {
+        $idGenerator = $this->createIdGeneratorThatReturns(1);
+        $dateTimeFactory = $this->createDateTimeFactoryThatReturns('2017-06-03 18:48');
 
-                   public function generateUuid(): string
-                   {
-                       return '1';
-                   }
-               }
-        );
+        $card = new Card(1.1, 2.2, 3.3, 4.4, $idGenerator, $dateTimeFactory);
 
         $entities = [
             $card,
@@ -36,5 +31,41 @@ class CardFixture implements FixtureInterface
         }
 
         $manager->flush();
+    }
+
+    private function createIdGeneratorThatReturns(string $id)
+    {
+        return new class($id) extends IdGenerator
+        {
+            private $id;
+
+            public function __construct(string $id)
+            {
+                $this->id = $id;
+            }
+
+            public function generateUuid(): string
+            {
+                return $this->id;
+            }
+        };
+    }
+
+    private function createDateTimeFactoryThatReturns(string $formattedDateTime)
+    {
+        return new class($formattedDateTime) extends DateTimeFactory
+        {
+            private $formattedDateTime;
+
+            public function __construct(string $formattedDateTime)
+            {
+                $this->formattedDateTime = $formattedDateTime;
+            }
+
+            public function getCurrentDateAndTime(): \DateTimeImmutable
+            {
+                return new \DateTimeImmutable($this->formattedDateTime);
+            }
+        };
     }
 }
