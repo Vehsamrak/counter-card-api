@@ -4,7 +4,6 @@ namespace Tests\AppBundle\Controller;
 
 use AppBundle\Fixture\CardFixture;
 use AppBundle\Fixture\UserFixture;
-use Symfony\Component\HttpFoundation\Request;
 use Tests\RestTestCase;
 
 /**
@@ -25,13 +24,12 @@ class CardControllerTest extends RestTestCase
     }
 
     /** @test */
-    public function GET_card_401()
+    public function POST_card_401()
     {
-        $client = static::createClient();
+        $this->setAuthToken('');
+        $this->sendPostRequest('/api/card');
 
-        $client->request(Request::METHOD_POST, '/api/card');
-
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertHttpCode(401);
     }
 
     /** @test */
@@ -41,7 +39,7 @@ class CardControllerTest extends RestTestCase
 
         $this->sendPostRequest('/api/card', $parameters);
 
-        $this->assertEquals(400, $this->getResponseCode());
+        $this->assertHttpCode(400);
         $this->assertEquals(['error' => 'Mandatory parameter missed.'], $this->getResponseContents());
     }
 
@@ -51,7 +49,7 @@ class CardControllerTest extends RestTestCase
         $this->setAuthToken('');
         $this->sendGetRequest('/api/card/last');
 
-        $this->assertEquals(401, $this->getResponseCode());
+        $this->assertHttpCode(401);
     }
 
     /** @test */
@@ -59,7 +57,7 @@ class CardControllerTest extends RestTestCase
     {
         $this->sendGetRequest('/api/card/last');
 
-        $this->assertEquals(200, $this->getResponseCode());
+        $this->assertHttpCode(200);
         $this->assertEquals(
             [
                 'id'                => '1',

@@ -119,4 +119,9 @@ abstract class RestTestCase extends WebTestCase
 
         return $entity;
     }
+
+    public function assertHttpCode(int $expectedStatusCode)
+    {
+        parent::assertStatusCode($expectedStatusCode, $this->httpClient);
+    }
 }

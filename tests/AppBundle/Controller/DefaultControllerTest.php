@@ -14,7 +14,7 @@ class DefaultControllerTest extends RestTestCase
         $this->followRedirects();
         $this->sendGetRequest('/api');
 
-        $this->assertEquals(200, $this->getResponseCode());
+        $this->assertHttpCode(200);
         $this->assertEquals('api documentation', $this->getResponseContents());
     }
 }
