@@ -57,7 +57,7 @@ class CardController extends AbstractRestController
     public function lastAction()
     {
         $cardRepository = $this->get('counter_card.card_repository');
-        $card = $cardRepository->findLast();
+        $card = $cardRepository->findLastForUser($this->getUser()->getId());
 
         if (!$card) {
         	return new NotFoundResponse();

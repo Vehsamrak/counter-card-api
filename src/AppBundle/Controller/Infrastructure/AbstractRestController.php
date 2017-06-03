@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Infrastructure;
 use JMS\Serializer\Serializer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Vehsamrak
@@ -16,15 +17,17 @@ abstract class AbstractRestController extends Controller
     /** @var Serializer */
     private $serializer;
 
-    public function respond($response): JsonResponse
+    public function respond($response): Response
     {
+        $serializer = $this->get('jms_serializer');
+
         if ($response instanceof JsonResponse) {
-            $serializedData = $this->serialize($response->getContent());
-            $response->setData($serializedData);
+            $serializedData = $serializer->serialize($response->getContent(), self::FORMAT_JSON);
         } else {
             $serializedData = $this->serialize($response);
-            $response = new JsonResponse($serializedData, JsonResponse::HTTP_OK);
         }
+
+        $response = new Response($serializedData, JsonResponse::HTTP_OK, ['Content-Type' => 'application/json']);
 
         return $response;
     }

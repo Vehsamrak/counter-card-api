@@ -54,7 +54,15 @@ class Card
     /** @var DateTimeFactory */
     private $dateTimeFactory;
 
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="cards")
+     * @ORM\JoinColumn(name="creator", referencedColumnName="id")
+     */
+    private $creator;
+
     public function __construct(
+        User $creator,
         float $waterHot,
         float $waterCold,
         float $electricityDay,
@@ -66,6 +74,7 @@ class Card
         $this->dateTimeFactory = $dateTimeFactory ?? new DateTimeFactory();
         $this->id = $idGenerator->generateUuid();
         $this->createdAt = $this->dateTimeFactory->getCurrentDateAndTime();
+        $this->creator = $creator;
         $this->waterCold = $waterCold;
         $this->waterHot = $waterHot;
         $this->electricityDay = $electricityDay;

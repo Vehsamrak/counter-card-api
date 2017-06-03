@@ -11,8 +11,13 @@ class CardRepository extends AbstractRepository
     /**
      * @return Card|object|null
      */
-    public function findLast()
+    public function findLastForUser(string $userId)
     {
-        return $this->findOneBy([], ['id' => 'DESC']);
+        return $this->findOneBy(
+            [
+                'creator' => $userId,
+            ],
+            ['id' => 'DESC']
+        );
     }
 }

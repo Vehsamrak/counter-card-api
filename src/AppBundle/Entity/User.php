@@ -2,9 +2,12 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Service\DateTimeFactory\DateTimeFactory;
 use AppBundle\Service\IdGenerator\IdGenerator;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use JMS\Serializer\Annotation\Type as SerializerType;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -67,19 +70,31 @@ class User implements UserInterface
     /** @var IdGenerator */
     private $idGenerator;
 
+    /** @var DateTimeFactory */
+    private $dateTimeFactory;
+
+    /* @var Card[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Card", mappedBy="creator")
+     * @SerializerType("array")
+     */
+    private $cards;
+
     public function __construct(
         string $email,
         string $name,
         int $flatNumber,
-        IdGenerator $idGenerator = null
+        IdGenerator $idGenerator = null,
+        DateTimeFactory $dateTimeFactory = null
     ) {
         $this->idGenerator = $idGenerator ?: new IdGenerator();
+        $this->dateTimeFactory = $dateTimeFactory ?? new DateTimeFactory();
         $this->id = $idGenerator->generateUuid();
         $this->token = $idGenerator->generateString();
-        $this->registrationDate = new \DateTime();
+        $this->registrationDate = $this->dateTimeFactory->getCurrentDateAndTime();
         $this->name = $name;
         $this->flatNumber = $flatNumber;
         $this->email = $email;
+        $this->cards = new ArrayCollection();
     }
 
     public function getId(): string

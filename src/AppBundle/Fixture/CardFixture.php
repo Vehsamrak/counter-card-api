@@ -3,6 +3,7 @@
 namespace AppBundle\Fixture;
 
 use AppBundle\Entity\Card;
+use AppBundle\Entity\User;
 use AppBundle\Service\DateTimeFactory\DateTimeFactory;
 use AppBundle\Service\IdGenerator\IdGenerator;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -20,7 +21,9 @@ class CardFixture implements FixtureInterface
         $idGenerator = $this->createIdGeneratorThatReturns(1);
         $dateTimeFactory = $this->createDateTimeFactoryThatReturns('2017-06-03 18:48');
 
-        $card = new Card(1.1, 2.2, 3.3, 4.4, $idGenerator, $dateTimeFactory);
+        $user = $manager->getRepository(User::class)->find(1);
+
+        $card = new Card($user, 1.1, 2.2, 3.3, 4.4, $idGenerator, $dateTimeFactory);
 
         $entities = [
             $card,
