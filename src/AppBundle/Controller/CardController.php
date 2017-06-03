@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Card;
 use AppBundle\Response\MandatoryParameterMissedResponse;
+use AppBundle\Response\NotFoundResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -58,12 +59,11 @@ class CardController extends Controller
         $cardRepository = $this->get('counter_card.card_repository');
         $card = $cardRepository->findLast();
 
-        $cardData = [
-            'id'         => $card->getId(),
-            'created_at' => $card->getCreatedAt()->format('Y-m-d H:i:s'),
-        ];
+        if (!$card) {
+        	return new NotFoundResponse();
+        }
 
-        return new JsonResponse($cardData);
+        return new JsonResponse($card);
     }
 
     private function sendCardByMail(Card $card): void

@@ -2,6 +2,7 @@
 
 namespace Tests\AppBundle\Controller;
 
+use AppBundle\Fixture\CardFixture;
 use AppBundle\Fixture\UserFixture;
 use Symfony\Component\HttpFoundation\Request;
 use Tests\RestTestCase;
@@ -11,10 +12,16 @@ use Tests\RestTestCase;
  */
 class CardControllerTest extends RestTestCase
 {
+
     protected function setUp()
     {
         parent::setUp();
-        $this->loadFixtures([UserFixture::class]);
+        $this->loadFixtures(
+            [
+                UserFixture::class,
+                CardFixture::class,
+            ]
+        );
     }
 
     /** @test */
