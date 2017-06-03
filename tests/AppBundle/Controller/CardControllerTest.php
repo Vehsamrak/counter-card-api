@@ -60,5 +60,18 @@ class CardControllerTest extends RestTestCase
         $this->sendGetRequest('/api/card/last');
 
         $this->assertEquals(200, $this->getResponseCode());
+        $this->assertEquals(
+            json_encode(
+                [
+                    'id'                => '1',
+                    'created_at'        => '2017-06-03 18:48',
+                    'water_cold'        => 2.2,
+                    'water_hot'         => 1.1,
+                    'electricity_day'   => 3.3,
+                    'electricity_night' => 4.4,
+                ]
+            ),
+            $this->getResponseContents()
+        );
     }
 }

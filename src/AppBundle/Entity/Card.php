@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Service\DateTimeFactory\DateTimeFactory;
 use AppBundle\Service\IdGenerator\IdGenerator;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -50,16 +51,21 @@ class Card
      */
     private $electricityNight;
 
+    /** @var DateTimeFactory */
+    private $dateTimeFactory;
+
     public function __construct(
         float $waterHot,
         float $waterCold,
         float $electricityDay,
         float $electricityNight,
-        IdGenerator $idGenerator = null
+        IdGenerator $idGenerator = null,
+        DateTimeFactory $dateTimeFactory = null
     ) {
         $idGenerator = $idGenerator ?: new IdGenerator();
+        $this->dateTimeFactory = $dateTimeFactory ?? new DateTimeFactory();
         $this->id = $idGenerator->generateUuid();
-        $this->createdAt = new \DateTimeImmutable();
+        $this->createdAt = $this->dateTimeFactory->getCurrentDateAndTime();
         $this->waterCold = $waterCold;
         $this->waterHot = $waterHot;
         $this->electricityDay = $electricityDay;
@@ -75,7 +81,7 @@ class Card
     {
         $createdAt = $this->createdAt;
 
-        if (!$createdAt instanceof \DateTimeImmutable) {
+        if ($createdAt instanceof \DateTime) {
             $createdAt = \DateTimeImmutable::createFromMutable($createdAt);
         }
 
