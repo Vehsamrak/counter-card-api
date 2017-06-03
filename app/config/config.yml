@@ -3,8 +3,6 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
 
-# Put parameters here that don't need to change on each machine where the app is deployed
-# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
 
@@ -34,13 +32,11 @@ framework:
     php_errors:
         log: true
 
-# Twig Configuration
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     exception_controller: AppBundle:Exception:handleException
 
-# Doctrine Configuration
 doctrine:
     dbal:
         charset: UTF8
@@ -56,7 +52,6 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
 
-# Swiftmailer Configuration
 swiftmailer:
     transport: '%mailer_transport%'
     host: '%mailer_host%'
@@ -65,3 +60,11 @@ swiftmailer:
     password: '%mailer_password%'
     encryption: '%mailer_encryption%'
     auth_mode: '%mailer_auth_mode%'
+
+jms_serializer:
+    handlers:
+        datetime:
+            default_format: "Y-m-d H:i"
+    property_naming:
+        separator:  _
+        lower_case: true
