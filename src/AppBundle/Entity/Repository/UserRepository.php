@@ -47,6 +47,19 @@ class UserRepository extends AbstractRepository
     /**
      * @return User|object|null
      */
+    public function findOneByEmailAndPassword(string $email, string $password)
+    {
+        return $this->findOneBy(
+            [
+                'email'    => $email,
+                'password' => $password,
+            ]
+        );
+    }
+
+    /**
+     * @return User|object|null
+     */
     public function findOneByEmailOrFlatNumber(string $email, int $flatNumber)
     {
         $em = $this->getEntityManager();

@@ -55,6 +55,13 @@ class User implements UserInterface
     private $token;
 
     /**
+     * @var string
+     * @ORM\Column(name="password", type="string", length=32, unique=false)
+     * @Serializer\Exclude
+     */
+    private $password;
+
+    /**
      * @var \DateTime
      * @ORM\Column(name="registration_date", type="datetime")
      */
@@ -83,6 +90,7 @@ class User implements UserInterface
         string $email,
         string $name,
         int $flatNumber,
+        string $password,
         IdGenerator $idGenerator = null,
         DateTimeFactory $dateTimeFactory = null
     ) {
@@ -94,6 +102,7 @@ class User implements UserInterface
         $this->name = $name;
         $this->flatNumber = $flatNumber;
         $this->email = $email;
+        $this->password = $password;
         $this->cards = new ArrayCollection();
     }
 
@@ -124,8 +133,9 @@ class User implements UserInterface
     }
 
     /** {@inheritDoc} */
-    public function getPassword()
+    public function getPassword(): string
     {
+        return $this->password;
     }
 
     /** {@inheritDoc} */

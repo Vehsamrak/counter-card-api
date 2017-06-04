@@ -2,20 +2,22 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Controller\Infrastructure\AbstractRestController;
 use AppBundle\Exception\UserExists;
 use AppBundle\Response\AlreadyExistsResponse;
 use AppBundle\Response\MandatoryParameterMissedResponse;
+use AppBundle\Response\NotAllowedResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @author Vehsamrak
  */
-class AuthController extends Controller
+class AuthController extends AbstractRestController
 {
+
     /**
      * @Route("/register", name="api_register_user")
      * @Method("POST")
@@ -49,11 +51,31 @@ class AuthController extends Controller
 
     /**
      * @Route("/login", name="api_login")
-     * @Method("GET")
+     * @Method("POST")
      * @return JsonResponse
      */
     public function loginAction(Request $request)
     {
+        $requestContentsJson = $request->getContent();
+        $requestContents = json_decode($requestContentsJson, true);
+        $requestParameters = $request->request->all();
 
+        $login = $requestContents['login'] ?? $requestParameters['login'] ?? null;
+        $password = $requestContents['password'] ?? $requestParameters['password'] ?? null;
+
+        if ($login && $password) {
+            $userRepository = $this->get('counter_card.user_repository');
+            $user = $userRepository->findOneByEmailAndPassword($login, $password);
+
+            if (!$user) {
+            	$response = new NotAllowedResponse();
+            } else {
+                $response = new JsonResponse($user);
+            }
+        } else {
+            $response = new MandatoryParameterMissedResponse();
+        }
+
+        return $this->respond($response);
     }
 }

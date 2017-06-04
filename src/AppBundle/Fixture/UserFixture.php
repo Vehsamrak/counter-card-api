@@ -18,7 +18,7 @@ class UserFixture implements FixtureInterface
     {
         $dateTimeFactory = $this->createDateTimeFactoryThatReturns('2017-06-03 18:00');
 
-        $user = new User('test@test.ru', 'Tester', 1, new class extends IdGenerator
+        $user = new User('test@test.ru', 'Tester', 1, 'testPassword', new class extends IdGenerator
         {
             public function generateUuid(): string
             {
