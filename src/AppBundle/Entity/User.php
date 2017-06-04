@@ -94,10 +94,10 @@ class User implements UserInterface
         IdGenerator $idGenerator = null,
         DateTimeFactory $dateTimeFactory = null
     ) {
-        $this->idGenerator = $idGenerator ?: new IdGenerator();
+        $this->idGenerator = $idGenerator ?? new IdGenerator();
         $this->dateTimeFactory = $dateTimeFactory ?? new DateTimeFactory();
         $this->id = $idGenerator->generateUuid();
-        $this->token = $idGenerator->generateString();
+        $this->token = $idGenerator->generateString(self::TOKEN_LENGTH);
         $this->registrationDate = $this->dateTimeFactory->getCurrentDateAndTime();
         $this->name = $name;
         $this->flatNumber = $flatNumber;
@@ -122,9 +122,9 @@ class User implements UserInterface
         );
     }
 
-    public function updateToken(): void
+    public function updateToken(string $token): void
     {
-        $this->token = $this->idGenerator->generateString(self::TOKEN_LENGTH);
+        $this->token = $token;
     }
 
     public function getToken(): string

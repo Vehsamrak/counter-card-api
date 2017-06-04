@@ -17,21 +17,9 @@ class UserFixture implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $dateTimeFactory = $this->createDateTimeFactoryThatReturns('2017-06-03 18:00');
+        $idGenerator = $this->createIdGeneratorThatReturns(1);
 
-        $user = new User('test@test.ru', 'Tester', 1, 'testPassword', new class extends IdGenerator
-        {
-            public function generateUuid(): string
-            {
-                return '1';
-            }
-
-            public function generateString(int $length = 8): string
-            {
-                return 'test-token';
-            }
-
-        }, $dateTimeFactory);
-
+        $user = new User('test@test.ru', 'Tester', 1, 'password', $idGenerator, $dateTimeFactory);
 
         $entities = [
             $user
@@ -58,6 +46,29 @@ class UserFixture implements FixtureInterface
             public function getCurrentDateAndTime(): \DateTimeImmutable
             {
                 return new \DateTimeImmutable($this->formattedDateTime);
+            }
+        };
+    }
+
+    private function createIdGeneratorThatReturns(string $id)
+    {
+        return new class($id) extends IdGenerator
+        {
+            private $id;
+
+            public function __construct(string $id)
+            {
+                $this->id = $id;
+            }
+
+            public function generateUuid(): string
+            {
+                return $this->id;
+            }
+
+            public function generateString(int $length = 8): string
+            {
+                return 'test-token';
             }
         };
     }

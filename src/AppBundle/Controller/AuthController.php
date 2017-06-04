@@ -68,14 +68,18 @@ class AuthController extends AbstractRestController
             $user = $userRepository->findOneByEmailAndPassword($login, $password);
 
             if (!$user) {
-            	$response = new NotAllowedResponse();
+            	$result = new NotAllowedResponse();
             } else {
-                $response = new JsonResponse($user);
+                $newToken = $this->get('id_generator')->generateString();
+                $user->updateToken($newToken);
+                $userRepository->flush($user);
+
+                $result = $user->getToken();
             }
         } else {
-            $response = new MandatoryParameterMissedResponse();
+            $result = new MandatoryParameterMissedResponse();
         }
 
-        return $this->respond($response);
+        return $this->respond($result);
     }
 }
