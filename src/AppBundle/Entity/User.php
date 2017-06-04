@@ -163,4 +163,9 @@ class User implements UserInterface
     {
         return $this->email;
     }
+
+    public function getFlatNumber(): int
+    {
+        return $this->flatNumber;
+    }
 }

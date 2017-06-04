@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Controller\Infrastructure\AbstractRestController;
 use AppBundle\Entity\Card;
+use AppBundle\Entity\User;
 use AppBundle\Response\MandatoryParameterMissedResponse;
 use AppBundle\Response\NotFoundResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -34,7 +35,8 @@ class CardController extends AbstractRestController
         $electricityNight = $this->formatFloatNumber($requestContents['electricityNight']);
 
         if ($waterHot && $waterCold && $electricityDay && $electricityNight) {
-            $card = new Card($waterHot, $waterCold, $electricityDay, $electricityNight);
+            $creator = $this->getUser();
+            $card = new Card($creator, $waterHot, $waterCold, $electricityDay, $electricityNight);
             $cardRepository = $this->get('counter_card.card_repository');
             $cardRepository->persist($card);
             $cardRepository->flush();
@@ -68,8 +70,10 @@ class CardController extends AbstractRestController
 
     private function sendCardByMail(Card $card): void
     {
-        // TODO: change to actual flat number from User
-        $flatNumber = 1;
+        /** @var User $user */
+        $user = $this->getUser();
+        $flatNumber = $user->getFlatNumber();
+
         $message = \Swift_Message::newInstance()
                                  ->setSubject(sprintf('Показания счетчиков квартиры №%d', $flatNumber))
             // TODO[petr]: move to configuration parameters
