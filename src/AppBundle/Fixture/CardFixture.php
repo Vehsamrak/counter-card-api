@@ -19,14 +19,18 @@ class CardFixture implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $idGenerator = $this->createIdGeneratorThatReturns(1);
+        $secondIdGenerator = $this->createIdGeneratorThatReturns(2);
         $dateTimeFactory = $this->createDateTimeFactoryThatReturns('2017-06-03 18:48');
+        $secondDateTimeFactory = $this->createDateTimeFactoryThatReturns('2017-01-01 10:00');
 
         $user = $manager->getRepository(User::class)->find(1);
 
-        $card = new Card($user, 1.1, 2.2, 3.3, 4.4, $idGenerator, $dateTimeFactory);
+        $firstCard = new Card($user, 1.1, 2.2, 3.3, 4.4, $idGenerator, $dateTimeFactory);
+        $secondCard = new Card($user, 1.1, 2.2, 3.3, 4.4, $secondIdGenerator, $secondDateTimeFactory);
 
         $entities = [
-            $card,
+            $firstCard,
+            $secondCard,
         ];
 
         foreach ($entities as $entity) {

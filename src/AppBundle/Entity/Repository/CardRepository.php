@@ -17,7 +17,7 @@ class CardRepository extends AbstractRepository
             [
                 'creator' => $userId,
             ],
-            ['id' => 'DESC']
+            ['createdAt' => 'DESC']
         );
     }
 }
