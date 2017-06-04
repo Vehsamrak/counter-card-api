@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller\Infrastructure;
 
-use JMS\Serializer\Serializer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,8 +13,6 @@ abstract class AbstractRestController extends Controller
 {
 
     const FORMAT_JSON = 'json';
-    /** @var Serializer */
-    private $serializer;
 
     public function respond($response): Response
     {

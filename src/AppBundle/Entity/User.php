@@ -102,7 +102,7 @@ class User implements UserInterface
         $this->name = $name;
         $this->flatNumber = $flatNumber;
         $this->email = $email;
-        $this->password = $password;
+        $this->password = md5($password);
         $this->cards = new ArrayCollection();
     }
 

@@ -61,14 +61,15 @@ class AuthController extends AbstractRestController
         $requestParameters = $request->request->all();
 
         $login = $requestContents['login'] ?? $requestParameters['login'] ?? null;
-        $password = $requestContents['password'] ?? $requestParameters['password'] ?? null;
+        $rawPassword = $requestContents['password'] ?? $requestParameters['password'] ?? null;
+        $password = md5($rawPassword);
 
         if ($login && $password) {
             $userRepository = $this->get('counter_card.user_repository');
             $user = $userRepository->findOneByEmailAndPassword($login, $password);
 
             if (!$user) {
-            	$result = new NotAllowedResponse();
+            	$result = new NotAllowedResponse('Invalid login and password.');
             } else {
                 $newToken = $this->get('id_generator')->generateString();
                 $user->updateToken($newToken);
