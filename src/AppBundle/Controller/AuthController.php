@@ -25,13 +25,11 @@ class AuthController extends AbstractRestController
      */
     public function registerAction(Request $request)
     {
-        $requestContentsJson = $request->getContent();
-        $requestContents = json_decode($requestContentsJson, true);
         $requestParameters = $request->request->all();
 
-        $email = $requestContents['email'] ?? $requestParameters['email'];
-        $name = $requestContents['name'] ?? $requestParameters['name'];
-        $flatNumber = $requestContents['flatNumber'] ?? $requestParameters['flatNumber'];
+        $email = $requestParameters['email'];
+        $name = $requestParameters['name'];
+        $flatNumber = $requestParameters['flatNumber'];
 
         if ($email && $name && $flatNumber) {
             $userRegistrator = $this->get('counter_card.user_registrator');
@@ -56,12 +54,10 @@ class AuthController extends AbstractRestController
      */
     public function loginAction(Request $request)
     {
-        $requestContentsJson = $request->getContent();
-        $requestContents = json_decode($requestContentsJson, true);
         $requestParameters = $request->request->all();
 
-        $login = $requestContents['login'] ?? $requestParameters['login'] ?? null;
-        $rawPassword = $requestContents['password'] ?? $requestParameters['password'] ?? null;
+        $login = $requestParameters['login'] ?? null;
+        $rawPassword = $requestParameters['password'] ?? null;
         $password = md5($rawPassword);
 
         if ($login && $password) {

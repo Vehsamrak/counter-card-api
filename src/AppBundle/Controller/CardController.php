@@ -26,13 +26,10 @@ class CardController extends AbstractRestController
      */
     public function createAction(Request $request)
     {
-        $requestContentsJson = $request->getContent();
-        $requestContents = json_decode($requestContentsJson, true);
-
-        $waterHot = $this->formatFloatNumber($requestContents['waterHot']);
-        $waterCold = $this->formatFloatNumber($requestContents['waterCold']);
-        $electricityDay = $this->formatFloatNumber($requestContents['electricityDay']);
-        $electricityNight = $this->formatFloatNumber($requestContents['electricityNight']);
+        $waterHot = $this->formatFloatNumber($request->get('waterHot'));
+        $waterCold = $this->formatFloatNumber($request->get('waterCold'));
+        $electricityDay = $this->formatFloatNumber($request->get('electricityDay'));
+        $electricityNight = $this->formatFloatNumber($request->get('electricityNight'));
 
         if ($waterHot && $waterCold && $electricityDay && $electricityNight) {
             $creator = $this->getUser();

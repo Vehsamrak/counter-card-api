@@ -24,6 +24,7 @@ abstract class RestTestCase extends WebTestCase
             false,
             [
                 'HTTP_AUTH_TOKEN' => self::TEST_TOKEN,
+                'Content-Type'    => 'application/json',
             ]
         );
     }
