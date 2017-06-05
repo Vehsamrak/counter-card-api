@@ -29,13 +29,13 @@ class UserRegistrator
     /**
      * @throws UserExists
      */
-    public function registerUser(string $email, string $name, int $flatNumber): User
+    public function registerUser(string $email, string $name, int $flatNumber, string $password): User
     {
         if ($this->userRepository->findOneByEmailOrFlatNumber($email, $flatNumber)) {
         	throw new UserExists();
         }
 
-        $user = new User($email, $name, $flatNumber, $this->idGenerator);
+        $user = new User($email, $name, $flatNumber, $password, $this->idGenerator);
         $this->userRepository->persist($user);
         $this->userRepository->flush();
 
