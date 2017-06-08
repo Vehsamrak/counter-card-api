@@ -27,5 +27,15 @@ class UserControllerTest extends RestTestCase
         $this->sendGetRequest('/api/user');
 
         $this->assertHttpCode(200);
+        $this->assertEquals(
+            [
+                'id'                => '1',
+                'name'              => 'Tester',
+                'email'             => 'test@test.ru',
+                'flat_number'       => 1,
+                'registration_date' => '2017-06-03 18:00',
+            ],
+            $this->getResponseContents()
+        );
     }
 }
