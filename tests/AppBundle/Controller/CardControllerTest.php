@@ -67,18 +67,18 @@ class CardControllerTest extends RestTestCase
         $this->assertHttpCode(200);
         $this->assertEquals(
             [
-                'id'                => self::CARD_ID,
-                'created_at'        => '2017-06-03 18:48',
-                'water_cold'        => 2.2,
-                'water_hot'         => 1.1,
-                'electricity_day'   => 3.3,
-                'electricity_night' => 4.4,
-                'creator'           => [
-                    'id'                => self::FIRST_USER_ID,
-                    'name'              => self::FIRST_USER_NAME,
-                    'email'             => self::FIRST_USER_EMAIL,
-                    'flat_number'       => self::FIRST_USER_FLAT_NUMBER,
-                    'registration_date' => self::FIRST_USER_REGISTRATION_DATE,
+                'id'               => self::CARD_ID,
+                'createdAt'        => '2017-06-03 18:48',
+                'waterCold'        => 2.2,
+                'waterHot'         => 1.1,
+                'electricityDay'   => 3.3,
+                'electricityNight' => 4.4,
+                'creator'          => [
+                    'id'               => self::FIRST_USER_ID,
+                    'name'             => self::FIRST_USER_NAME,
+                    'email'            => self::FIRST_USER_EMAIL,
+                    'flatNumber'       => self::FIRST_USER_FLAT_NUMBER,
+                    'registrationDate' => self::FIRST_USER_REGISTRATION_DATE,
                 ],
             ],
             $this->getResponseContents()

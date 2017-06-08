@@ -5,6 +5,7 @@ imports:
 
 parameters:
     locale: en
+    jms_serializer.camel_case_naming_strategy.class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy
 
 framework:
     #esi: ~
@@ -65,6 +66,3 @@ jms_serializer:
     handlers:
         datetime:
             default_format: "Y-m-d H:i"
-    property_naming:
-        separator:  _
-        lower_case: true

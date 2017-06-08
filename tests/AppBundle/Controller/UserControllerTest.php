@@ -35,11 +35,11 @@ class UserControllerTest extends RestTestCase
         $this->assertHttpCode(200);
         $this->assertEquals(
             [
-                'id'                => self::FIRST_USER_ID,
-                'name'              => self::FIRST_USER_NAME,
-                'email'             => self::FIRST_USER_EMAIL,
-                'flat_number'       => self::FIRST_USER_FLAT_NUMBER,
-                'registration_date' => self::FIRST_USER_REGISTRATION_DATE,
+                'id'               => self::FIRST_USER_ID,
+                'name'             => self::FIRST_USER_NAME,
+                'email'            => self::FIRST_USER_EMAIL,
+                'flatNumber'       => self::FIRST_USER_FLAT_NUMBER,
+                'registrationDate' => self::FIRST_USER_REGISTRATION_DATE,
             ],
             $this->getResponseContents()
         );
