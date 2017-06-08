@@ -11,6 +11,12 @@ use Tests\RestTestCase;
 class UserControllerTest extends RestTestCase
 {
 
+    const FIRST_USER_ID = '1';
+    const FIRST_USER_NAME = 'Adam Smith';
+    const FIRST_USER_EMAIL = 'test@test.ru';
+    const FIRST_USER_FLAT_NUMBER = 1;
+    const FIRST_USER_REGISTRATION_DATE = '2017-06-03 18:00';
+
     protected function setUp()
     {
         parent::setUp();
@@ -29,11 +35,11 @@ class UserControllerTest extends RestTestCase
         $this->assertHttpCode(200);
         $this->assertEquals(
             [
-                'id'                => '1',
-                'name'              => 'Tester',
-                'email'             => 'test@test.ru',
-                'flat_number'       => 1,
-                'registration_date' => '2017-06-03 18:00',
+                'id'                => self::FIRST_USER_ID,
+                'name'              => self::FIRST_USER_NAME,
+                'email'             => self::FIRST_USER_EMAIL,
+                'flat_number'       => self::FIRST_USER_FLAT_NUMBER,
+                'registration_date' => self::FIRST_USER_REGISTRATION_DATE,
             ],
             $this->getResponseContents()
         );

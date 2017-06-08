@@ -12,6 +12,13 @@ use Tests\RestTestCase;
 class CardControllerTest extends RestTestCase
 {
 
+    const FIRST_USER_ID = '1';
+    const FIRST_USER_NAME = 'Adam Smith';
+    const FIRST_USER_EMAIL = 'test@test.ru';
+    const FIRST_USER_FLAT_NUMBER = 1;
+    const FIRST_USER_REGISTRATION_DATE = '2017-06-03 18:00';
+    const CARD_ID = '1';
+
     protected function setUp()
     {
         parent::setUp();
@@ -60,18 +67,18 @@ class CardControllerTest extends RestTestCase
         $this->assertHttpCode(200);
         $this->assertEquals(
             [
-                'id'                => '1',
+                'id'                => self::CARD_ID,
                 'created_at'        => '2017-06-03 18:48',
                 'water_cold'        => 2.2,
                 'water_hot'         => 1.1,
                 'electricity_day'   => 3.3,
                 'electricity_night' => 4.4,
                 'creator'           => [
-                    'id'                => '1',
-                    'name'              => 'Tester',
-                    'email'             => 'test@test.ru',
-                    'flat_number'       => 1,
-                    'registration_date' => '2017-06-03 18:00',
+                    'id'                => self::FIRST_USER_ID,
+                    'name'              => self::FIRST_USER_NAME,
+                    'email'             => self::FIRST_USER_EMAIL,
+                    'flat_number'       => self::FIRST_USER_FLAT_NUMBER,
+                    'registration_date' => self::FIRST_USER_REGISTRATION_DATE,
                 ],
             ],
             $this->getResponseContents()
