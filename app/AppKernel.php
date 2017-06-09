@@ -17,7 +17,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new AppBundle\AppBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
-            new Nelmio\CorsBundle\NelmioCorsBundle(),
+            new Nelmio\CorsBundle\NelmioCorsBundle(), // HTTP OPTIONS handling
             new JMS\SerializerBundle\JMSSerializerBundle(),
         ];
 
