@@ -13,6 +13,9 @@ services:
     token_authenticator:
         class: AppBundle\Service\Security\TokenAuthenticator
         arguments: ['@counter_card.user_repository']
+    mailer:
+        class: AppBundle\Service\Mailer\Mailer
+        arguments: ['@swiftmailer.mailer', '@twig']
 
     # Repositories
     counter_card.user_repository:

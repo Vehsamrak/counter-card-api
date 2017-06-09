@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Controller\Infrastructure\AbstractRestController;
 use AppBundle\Entity\Card;
-use AppBundle\Entity\User;
 use AppBundle\Response\MandatoryParameterMissedResponse;
 use AppBundle\Response\NotFoundResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -38,7 +37,8 @@ class CardController extends AbstractRestController
             $cardRepository->persist($card);
             $cardRepository->flush();
 
-            $this->sendCardByMail($card);
+            $mailer = $this->get('mailer');
+            $mailer->sendCardByMail($card, $this->getUser());
 
             $response = new JsonResponse($card->getId());
         } else {
@@ -63,34 +63,6 @@ class CardController extends AbstractRestController
         }
 
         return $this->respond($card);
-    }
-
-    private function sendCardByMail(Card $card): void
-    {
-        /** @var User $user */
-        $user = $this->getUser();
-        $flatNumber = $user->getFlatNumber();
-        $userEmail = $user->getEmail();
-
-        $message = \Swift_Message::newInstance()
-                                 ->setSubject(sprintf('Показания счетчиков квартиры №%d', $flatNumber))
-            // TODO[petr]: move to configuration parameters
-                                 ->setFrom('developesque@gmail.com')
-            // TODO[petr]: move to configuration parameters
-                                 ->setTo('atlanta64k9@yandex.ru')
-                                 ->setBcc($userEmail)
-                                 ->setBody(
-                                     $this->renderView(
-                                         'AppBundle:Mail:counterCard.html.twig',
-                                         [
-                                             'card'       => $card,
-                                             'flatNumber' => $flatNumber,
-                                         ]
-                                     ),
-                                     'text/html'
-                                 );
-
-        $this->get('mailer')->send($message);
     }
 
     /**
