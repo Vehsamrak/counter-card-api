@@ -70,6 +70,7 @@ class CardController extends AbstractRestController
         /** @var User $user */
         $user = $this->getUser();
         $flatNumber = $user->getFlatNumber();
+        $userEmail = $user->getEmail();
 
         $message = \Swift_Message::newInstance()
                                  ->setSubject(sprintf('Показания счетчиков квартиры №%d', $flatNumber))
@@ -77,7 +78,7 @@ class CardController extends AbstractRestController
                                  ->setFrom('developesque@gmail.com')
             // TODO[petr]: move to configuration parameters
                                  ->setTo('atlanta64k9@yandex.ru')
-                                 ->setBcc($user->getEmail())
+                                 ->setBcc($userEmail)
                                  ->setBody(
                                      $this->renderView(
                                          'AppBundle:Mail:counterCard.html.twig',
