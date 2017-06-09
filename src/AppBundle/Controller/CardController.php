@@ -77,7 +77,7 @@ class CardController extends AbstractRestController
                                  ->setFrom('developesque@gmail.com')
             // TODO[petr]: move to configuration parameters
                                  ->setTo('atlanta64k9@yandex.ru')
-            // TODO[petr]: email of sender if exist to BCC (blind copy)
+                                 ->setBcc($user->getEmail())
                                  ->setBody(
                                      $this->renderView(
                                          'AppBundle:Mail:counterCard.html.twig',
