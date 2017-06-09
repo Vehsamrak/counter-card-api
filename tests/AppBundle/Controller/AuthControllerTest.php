@@ -13,9 +13,10 @@ class AuthControllerTest extends RestTestCase
 
     private const INVALID_LOGIN = 'invalid-login';
     private const INVALID_PASSWORD = 'invalid-password';
-    private const VALID_LOGIN = 'test@test.ru';
+    private const VALID_EMAIL = 'test@test.ru';
     private const VALID_PASSWORD = 'password';
     private const AUTH_TOKEN = 'test-token';
+    private const VALID_FLAT_NUMBER = 1;
 
     protected function setUp()
     {
@@ -49,10 +50,26 @@ class AuthControllerTest extends RestTestCase
     }
 
     /** @test */
-    public function POST_loginWithValidLoginAndPassword_200AndTokenReturned(): void
+    public function POST_loginWithValidEmailAndPassword_200AndTokenReturned(): void
     {
         $parameters = [
-            'login'    => self::VALID_LOGIN,
+            'login'    => self::VALID_EMAIL,
+            'password' => self::VALID_PASSWORD,
+        ];
+
+        $this->sendPostRequest('/api/login', $parameters);
+
+        $this->assertHttpCode(200);
+        // exactly 8 any characters
+        $this->assertRegExp('/^.{8}$/', $this->getResponseContents());
+        $this->assertNotEquals(self::AUTH_TOKEN, $this->getResponseContents());
+    }
+
+    /** @test */
+    public function POST_loginWithValidFlatNumberAndPassword_200AndTokenReturned(): void
+    {
+        $parameters = [
+            'login'    => self::VALID_FLAT_NUMBER,
             'password' => self::VALID_PASSWORD,
         ];
 

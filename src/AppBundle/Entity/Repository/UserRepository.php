@@ -47,14 +47,15 @@ class UserRepository extends AbstractRepository
     /**
      * @return User|object|null
      */
-    public function findOneByEmailAndPassword(string $email, string $password)
+    public function findOneByLoginAndPassword(string $login, string $password)
     {
-        return $this->findOneBy(
-            [
-                'email'    => $email,
-                'password' => $password,
-            ]
-        );
+        $user = $this->findOneByEmailOrFlatNumber($login, (int) $login);
+
+        if ($user && $user->getPassword() === $password) {
+            return $user;
+        }
+
+        return null;
     }
 
     /**
@@ -66,14 +67,16 @@ class UserRepository extends AbstractRepository
         $qb = $em->createQueryBuilder();
 
         $q = $qb->select('u')
-            ->from('AppBundle:User', 'u')
-            ->where('u.email = :email')
-            ->orWhere('u.flatNumber = :flatNumber')
-            ->setParameters([
-                'email' => $email,
-                'flatNumber' => $flatNumber,
-            ])
-            ->getQuery();
+                ->from('AppBundle:User', 'u')
+                ->where('u.email = :email')
+                ->orWhere('u.flatNumber = :flatNumber')
+                ->setParameters(
+                    [
+                        'email'      => $email,
+                        'flatNumber' => $flatNumber,
+                    ]
+                )
+                ->getQuery();
 
         return $q->getOneOrNullResult();
     }

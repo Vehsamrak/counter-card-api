@@ -59,7 +59,7 @@ class AuthController extends AbstractRestController
 
         if ($login && $password) {
             $userRepository = $this->get('counter_card.user_repository');
-            $user = $userRepository->findOneByEmailAndPassword($login, $password);
+            $user = $userRepository->findOneByLoginAndPassword($login, $password);
 
             if (!$user) {
             	$result = new NotAllowedResponse('Invalid login and password.');
