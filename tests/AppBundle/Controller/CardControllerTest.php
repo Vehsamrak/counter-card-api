@@ -22,6 +22,7 @@ class CardControllerTest extends RestTestCase
     const VALID_WATER_COLD = 2.2;
     const VALID_ELECTRICITY_DAY = 3.3;
     const VALID_ELECTRICITY_NIGHT = 4.4;
+    const INVALID_PARAMETER = 'string';
 
     protected function setUp()
     {
@@ -43,11 +44,12 @@ class CardControllerTest extends RestTestCase
         $this->assertHttpCode(401);
     }
 
-    /** @test */
-    public function POST_card_400()
+    /**
+     * @test
+     * @dataProvider getInvalidCardParameters
+     */
+    public function POST_card_400($parameters)
     {
-        $parameters = [];
-
         $this->sendPostRequest('/api/card', $parameters);
 
         $this->assertHttpCode(400);
@@ -102,5 +104,44 @@ class CardControllerTest extends RestTestCase
             ],
             $this->getResponseContents()
         );
+    }
+
+    public function getInvalidCardParameters(): array
+    {
+        return [
+            [[]],
+            [
+                [
+                    'waterHot'         => self::INVALID_PARAMETER,
+                    'waterCold'        => self::VALID_WATER_COLD,
+                    'electricityDay'   => self::VALID_ELECTRICITY_DAY,
+                    'electricityNight' => self::VALID_ELECTRICITY_NIGHT,
+                ],
+            ],
+            [
+                [
+                    'waterHot'         => self::VALID_WATER_HOT,
+                    'waterCold'        => self::INVALID_PARAMETER,
+                    'electricityDay'   => self::VALID_ELECTRICITY_DAY,
+                    'electricityNight' => self::VALID_ELECTRICITY_NIGHT,
+                ],
+            ],
+            [
+                [
+                    'waterHot'         => self::VALID_WATER_HOT,
+                    'waterCold'        => self::VALID_WATER_COLD,
+                    'electricityDay'   => self::INVALID_PARAMETER,
+                    'electricityNight' => self::VALID_ELECTRICITY_NIGHT,
+                ],
+            ],
+            [
+                [
+                    'waterHot'         => self::VALID_WATER_HOT,
+                    'waterCold'        => self::VALID_WATER_COLD,
+                    'electricityDay'   => self::VALID_ELECTRICITY_DAY,
+                    'electricityNight' => self::INVALID_PARAMETER,
+                ],
+            ],
+        ];
     }
 }
