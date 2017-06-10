@@ -2,8 +2,10 @@
 
 namespace Tests\AppBundle\Controller;
 
+use AppBundle\Entity\Card;
 use AppBundle\Fixture\CardFixture;
 use AppBundle\Fixture\UserFixture;
+use Ramsey\Uuid\Uuid;
 use Tests\RestTestCase;
 
 /**
@@ -12,7 +14,7 @@ use Tests\RestTestCase;
 class CardControllerTest extends RestTestCase
 {
 
-    const FIRST_USER_ID = '1';
+    const FIRST_USER_ID = 'first-user';
     const FIRST_USER_NAME = 'Adam Smith';
     const FIRST_USER_EMAIL = 'test@test.ru';
     const FIRST_USER_FLAT_NUMBER = 1;
@@ -36,7 +38,7 @@ class CardControllerTest extends RestTestCase
     }
 
     /** @test */
-    public function POST_card_401()
+    public function POST_card_401(): void
     {
         $this->setAuthToken('');
         $this->sendPostRequest('/api/card');
@@ -48,7 +50,7 @@ class CardControllerTest extends RestTestCase
      * @test
      * @dataProvider getInvalidCardParameters
      */
-    public function POST_card_400($parameters)
+    public function POST_card_400(array $parameters): void
     {
         $this->sendPostRequest('/api/card', $parameters);
 
@@ -56,23 +58,34 @@ class CardControllerTest extends RestTestCase
         $this->assertEquals(['error' => 'Mandatory parameter missed.'], $this->getResponseContents());
     }
 
-    /** @test */
-    public function POST_card_201()
+    /**
+     * @test
+     * @dataProvider getValidCardParameters
+     */
+    public function POST_cardWhenLastCardWasCreated20DaysAgo_201(array $parameters): void
     {
-        $parameters = [
-            'waterHot'         => self::VALID_WATER_HOT,
-            'waterCold'        => self::VALID_WATER_COLD,
-            'electricityDay'   => self::VALID_ELECTRICITY_DAY,
-            'electricityNight' => self::VALID_ELECTRICITY_NIGHT,
-        ];
+        $this->givenCardCreatedDaysAgoByUser(20, self::FIRST_USER_ID);
 
         $this->sendPostRequest('/api/card', $parameters);
 
         $this->assertHttpCode(201);
     }
 
+    /**
+     * @test
+     * @dataProvider getValidCardParameters
+     */
+    public function POST_cardWhenLastCardWasCreated19DaysAgo_403(array $parameters): void
+    {
+        $this->givenCardCreatedDaysAgoByUser(19, self::FIRST_USER_ID);
+
+        $this->sendPostRequest('/api/card', $parameters);
+
+        $this->assertHttpCode(403);
+    }
+
     /** @test */
-    public function GET_cardLast_401()
+    public function GET_cardLast_401(): void
     {
         $this->setAuthToken('');
         $this->sendGetRequest('/api/card/last');
@@ -81,7 +94,7 @@ class CardControllerTest extends RestTestCase
     }
 
     /** @test */
-    public function GET_cardLast_200AndDateOfLastCreatedCardReturned()
+    public function GET_cardLast_200AndDateOfLastCreatedCardReturned(): void
     {
         $this->sendGetRequest('/api/card/last');
 
@@ -89,7 +102,7 @@ class CardControllerTest extends RestTestCase
         $this->assertEquals(
             [
                 'id'               => self::CARD_ID,
-                'createdAt'        => '2017-06-03 18:48',
+                'createdAt'        => '2016-06-03 18:48',
                 'waterCold'        => self::VALID_WATER_COLD,
                 'waterHot'         => self::VALID_WATER_HOT,
                 'electricityDay'   => self::VALID_ELECTRICITY_DAY,
@@ -104,6 +117,20 @@ class CardControllerTest extends RestTestCase
             ],
             $this->getResponseContents()
         );
+    }
+
+    public function getValidCardParameters(): array
+    {
+        return [
+            [
+                [
+                    'waterHot'         => self::VALID_WATER_HOT,
+                    'waterCold'        => self::VALID_WATER_COLD,
+                    'electricityDay'   => self::VALID_ELECTRICITY_DAY,
+                    'electricityNight' => self::VALID_ELECTRICITY_NIGHT,
+                ],
+            ],
+        ];
     }
 
     public function getInvalidCardParameters(): array
@@ -143,5 +170,23 @@ class CardControllerTest extends RestTestCase
                 ],
             ],
         ];
+    }
+
+    private function givenCardCreatedDaysAgoByUser(int $daysAgo, string $userId)
+    {
+        $ago20Days = (new \DateTime(sprintf('-%s days', $daysAgo)))->format(DATE_ISO8601);
+
+        $userRepository = $this->getContainer()->get('counter_card.user_repository');
+        $cardRepository = $this->getContainer()->get('counter_card.card_repository');
+        $user = $userRepository->find($userId);
+
+        $card = new Card(
+            $user, 1.1, 2.2, 3.3, 4.4,
+            CardFixture::createIdGeneratorThatReturns(Uuid::uuid4()),
+            CardFixture::createDateTimeFactoryThatReturns($ago20Days)
+        );
+
+        $cardRepository->persist($card);
+        $cardRepository->flush($card);
     }
 }

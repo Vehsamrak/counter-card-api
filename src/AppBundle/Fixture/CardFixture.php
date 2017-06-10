@@ -20,10 +20,10 @@ class CardFixture implements FixtureInterface
     {
         $idGenerator = $this->createIdGeneratorThatReturns(1);
         $secondIdGenerator = $this->createIdGeneratorThatReturns(2);
-        $dateTimeFactory = $this->createDateTimeFactoryThatReturns('2017-06-03 18:48');
-        $secondDateTimeFactory = $this->createDateTimeFactoryThatReturns('2017-01-01 10:00');
+        $dateTimeFactory = $this->createDateTimeFactoryThatReturns('2016-06-03 18:48');
+        $secondDateTimeFactory = $this->createDateTimeFactoryThatReturns('2016-01-01 10:00');
 
-        $user = $manager->getRepository(User::class)->find(1);
+        $user = $manager->getRepository(User::class)->find('first-user');
 
         $firstCard = new Card($user, 1.1, 2.2, 3.3, 4.4, $idGenerator, $dateTimeFactory);
         $secondCard = new Card($user, 1.1, 2.2, 3.3, 4.4, $secondIdGenerator, $secondDateTimeFactory);
@@ -40,7 +40,7 @@ class CardFixture implements FixtureInterface
         $manager->flush();
     }
 
-    private function createIdGeneratorThatReturns(string $id)
+    public static function createIdGeneratorThatReturns(string $id)
     {
         return new class($id) extends IdGenerator
         {
@@ -58,7 +58,7 @@ class CardFixture implements FixtureInterface
         };
     }
 
-    private function createDateTimeFactoryThatReturns(string $formattedDateTime)
+    public static function createDateTimeFactoryThatReturns(string $formattedDateTime)
     {
         return new class($formattedDateTime) extends DateTimeFactory
         {
