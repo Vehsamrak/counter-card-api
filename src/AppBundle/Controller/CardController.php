@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Controller\Infrastructure\AbstractRestController;
 use AppBundle\Entity\Card;
+use AppBundle\Response\CreatedResponse;
 use AppBundle\Response\MandatoryParameterMissedResponse;
 use AppBundle\Response\NotFoundResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -40,7 +41,7 @@ class CardController extends AbstractRestController
             $mailer = $this->get('mailer');
             $mailer->sendCardByMail($card, $this->getUser());
 
-            $response = new JsonResponse($card->getId());
+            $response = new CreatedResponse($card->getId());
         } else {
             $response = new MandatoryParameterMissedResponse();
         }
