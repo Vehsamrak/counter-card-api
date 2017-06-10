@@ -18,7 +18,7 @@ class CardControllerTest extends RestTestCase
     const FIRST_USER_NAME = 'Adam Smith';
     const FIRST_USER_EMAIL = 'test@test.ru';
     const FIRST_USER_FLAT_NUMBER = 1;
-    const FIRST_USER_REGISTRATION_DATE = '2017-06-03 18:00';
+    const FIRST_USER_REGISTRATION_DATE = 1496502000;
     const CARD_ID = '1';
     const VALID_WATER_HOT = 1.1;
     const VALID_WATER_COLD = 2.2;
@@ -102,7 +102,7 @@ class CardControllerTest extends RestTestCase
         $this->assertEquals(
             [
                 'id'               => self::CARD_ID,
-                'createdAt'        => '2016-06-03 18:48',
+                'createdAt'        => 1464968880,
                 'waterCold'        => self::VALID_WATER_COLD,
                 'waterHot'         => self::VALID_WATER_HOT,
                 'electricityDay'   => self::VALID_ELECTRICITY_DAY,

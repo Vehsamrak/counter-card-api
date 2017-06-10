@@ -15,7 +15,7 @@ class UserControllerTest extends RestTestCase
     const FIRST_USER_NAME = 'Adam Smith';
     const FIRST_USER_EMAIL = 'test@test.ru';
     const FIRST_USER_FLAT_NUMBER = 1;
-    const FIRST_USER_REGISTRATION_DATE = '2017-06-03 18:00';
+    const FIRST_USER_REGISTRATION_DATE = 1496502000;
 
     protected function setUp()
     {
