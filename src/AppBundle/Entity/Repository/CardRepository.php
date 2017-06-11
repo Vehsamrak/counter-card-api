@@ -20,4 +20,17 @@ class CardRepository extends AbstractRepository
             ['createdAt' => 'DESC']
         );
     }
+
+    /**
+     * @return Card[]|object[]
+     */
+    public function findAllByUserId(string $userId)
+    {
+        return $this->findBy(
+            [
+                'creator' => $userId,
+            ],
+            ['createdAt' => 'DESC']
+        );
+    }
 }

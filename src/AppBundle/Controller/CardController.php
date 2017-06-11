@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Controller\Infrastructure\AbstractRestController;
 use AppBundle\Entity\Card;
+use AppBundle\Entity\Repository\CardRepository;
 use AppBundle\Entity\User;
 use AppBundle\Response\CreatedResponse;
 use AppBundle\Response\MandatoryParameterMissedResponse;
@@ -58,6 +59,27 @@ class CardController extends AbstractRestController
         }
 
         return $response;
+    }
+
+    /**
+     * @Route("/cards", name="api_cards_list")
+     * @Method("GET")
+     * @return JsonResponse
+     */
+    public function listAction()
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        /** @var CardRepository $cardRepository */
+        $cardRepository = $this->get('counter_card.card_repository');
+        $cards = $cardRepository->findAllByUserId($user->getId());
+
+        if (!$cards) {
+            return new NotFoundResponse();
+        }
+
+        return $this->respond($cards);
     }
 
     /**

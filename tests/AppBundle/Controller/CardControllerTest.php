@@ -119,6 +119,15 @@ class CardControllerTest extends RestTestCase
         );
     }
 
+    /** @test */
+    public function GET_cards_200LastTwelveCardsReturned(): void
+    {
+        $this->sendGetRequest('/api/cards');
+
+        $this->assertHttpCode(200);
+        $this->assertCount(2, $this->getResponseContents());
+    }
+
     public function getValidCardParameters(): array
     {
         return [
