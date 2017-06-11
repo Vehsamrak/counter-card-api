@@ -39,9 +39,9 @@ class CardController extends AbstractRestController
             $cardRepository = $this->get('counter_card.card_repository');
 
             $lastCard = $cardRepository->findLastForUser($creator->getId());
-            $ago20Days = new \DateTimeImmutable('-20 days');
+            $firstDayOfCurrentMonth = new \DateTimeImmutable(date('Y-m-01 00:00:00'));
 
-            if ($lastCard && $lastCard->getCreatedAt() > $ago20Days) {
+            if ($lastCard && $lastCard->getCreatedAt() > $firstDayOfCurrentMonth) {
                 $response = new NotAllowedResponse();
             } else {
                 $card = new Card($creator, $waterHot, $waterCold, $electricityDay, $electricityNight);

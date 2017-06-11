@@ -62,9 +62,9 @@ class CardControllerTest extends RestTestCase
      * @test
      * @dataProvider getValidCardParameters
      */
-    public function POST_cardWhenLastCardWasCreated20DaysAgo_201(array $parameters): void
+    public function POST_cardWhenLastCardWasCreatedInPreviousMonth_201(array $parameters): void
     {
-        $this->givenCardCreatedDaysAgoByUser(20, self::FIRST_USER_ID);
+        $this->givenCardCreatedDaysAgoByUser(30, self::FIRST_USER_ID);
 
         $this->sendPostRequest('/api/card', $parameters);
 
@@ -75,9 +75,9 @@ class CardControllerTest extends RestTestCase
      * @test
      * @dataProvider getValidCardParameters
      */
-    public function POST_cardWhenLastCardWasCreated19DaysAgo_403(array $parameters): void
+    public function POST_cardWhenLastCardWasCreatedInCurrentMonth_403(array $parameters): void
     {
-        $this->givenCardCreatedDaysAgoByUser(19, self::FIRST_USER_ID);
+        $this->givenCardCreatedInCurrentMonthByUser(self::FIRST_USER_ID);
 
         $this->sendPostRequest('/api/card', $parameters);
 
@@ -184,6 +184,24 @@ class CardControllerTest extends RestTestCase
             $user, 1.1, 2.2, 3.3, 4.4,
             CardFixture::createIdGeneratorThatReturns(Uuid::uuid4()),
             CardFixture::createDateTimeFactoryThatReturns($ago20Days)
+        );
+
+        $cardRepository->persist($card);
+        $cardRepository->flush($card);
+    }
+
+    private function givenCardCreatedInCurrentMonthByUser(string $userId)
+    {
+        $firstDayOfCurrentMonth = date('Y-m-01\TH:i:sO');
+
+        $userRepository = $this->getContainer()->get('counter_card.user_repository');
+        $cardRepository = $this->getContainer()->get('counter_card.card_repository');
+        $user = $userRepository->find($userId);
+
+        $card = new Card(
+            $user, 1.1, 2.2, 3.3, 4.4,
+            CardFixture::createIdGeneratorThatReturns(Uuid::uuid4()),
+            CardFixture::createDateTimeFactoryThatReturns($firstDayOfCurrentMonth)
         );
 
         $cardRepository->persist($card);
