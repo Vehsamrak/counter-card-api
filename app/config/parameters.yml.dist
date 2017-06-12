@@ -17,7 +17,7 @@ parameters:
     database_password_dev: ~
 
     mailer_transport: smtp
-    mailer_host: 127.0.0.1
+    mailer_host: smtp.gmail.com
     mailer_port: 465
     mailer_username: ~
     mailer_password: ~
