@@ -56,4 +56,16 @@ class UserRepository extends AbstractRepository
 
         return $q->getOneOrNullResult();
     }
+
+    /**
+     * @return User[]
+     */
+    public function findByIp(string $userIp)
+    {
+        return $this->findBy(
+            [
+                'ip' => $userIp,
+            ]
+        );
+    }
 }

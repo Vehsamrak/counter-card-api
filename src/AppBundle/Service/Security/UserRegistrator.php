@@ -4,6 +4,7 @@ namespace AppBundle\Service\Security;
 
 use AppBundle\Entity\Repository\UserRepository;
 use AppBundle\Entity\User;
+use AppBundle\Exception\MultipleRegistration;
 use AppBundle\Exception\UserExists;
 use AppBundle\Service\IdGenerator\IdGenerator;
 
@@ -33,6 +34,12 @@ class UserRegistrator
     {
         if ($this->userRepository->findOneByEmailOrFlatNumber($email, $flatNumber)) {
         	throw new UserExists();
+        }
+
+        $usersWithSameIp = $this->userRepository->findByIp($userIp);
+
+        if (count($usersWithSameIp) > 3) {
+            throw new MultipleRegistration();
         }
 
         $user = new User($email, $name, $flatNumber, $password, $userIp, $this->idGenerator);

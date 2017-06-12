@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Controller\Infrastructure\AbstractRestController;
+use AppBundle\Exception\MultipleRegistration;
 use AppBundle\Exception\UserExists;
 use AppBundle\Response\AlreadyExistsResponse;
 use AppBundle\Response\MandatoryParameterMissedResponse;
@@ -39,6 +40,8 @@ class AuthController extends AbstractRestController
                 $response = new JsonResponse($user->getToken());
             } catch (UserExists $exception) {
                 $response = new AlreadyExistsResponse('User with this email of flat number already exists.');
+            } catch (MultipleRegistration $exception) {
+                $response = new NotAllowedResponse(sprintf('Too many registrations with same ip: %s', $userIp));
             }
         } else {
             $response = new MandatoryParameterMissedResponse();

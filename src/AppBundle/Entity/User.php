@@ -66,7 +66,7 @@ class User implements UserInterface
      * @ORM\Column(name="ip", type="string", length=16, unique=false)
      * @Serializer\Exclude
      */
-    private $userIp;
+    private $ip;
 
     /**
      * @var \DateTime
@@ -111,7 +111,7 @@ class User implements UserInterface
         $this->flatNumber = $flatNumber;
         $this->email = $email;
         $this->password = md5($password);
-        $this->userIp = $userIp;
+        $this->ip = $userIp;
         $this->cards = new ArrayCollection();
     }
 
