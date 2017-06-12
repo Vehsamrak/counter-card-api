@@ -5,6 +5,11 @@ use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
 {
+
+    public const ENVIRONMENT_PRODUCTION = 'prod';
+    public const ENVIRONMENT_DEV = 'dev';
+    public const ENVIRONMENT_TEST = 'test';
+
     public function registerBundles()
     {
         $bundles = [
@@ -21,7 +26,7 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
         ];
 
-        if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
+        if (in_array($this->getEnvironment(), [self::ENVIRONMENT_DEV, self::ENVIRONMENT_TEST], true)) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
