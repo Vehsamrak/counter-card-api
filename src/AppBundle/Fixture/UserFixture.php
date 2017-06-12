@@ -19,7 +19,7 @@ class UserFixture implements FixtureInterface
         $dateTimeFactory = $this->createDateTimeFactoryThatReturns('2017-06-03 18:00');
         $idGenerator = $this->createIdGeneratorThatReturns('first-user');
 
-        $user = new User('test@test.ru', 'Adam Smith', 1, 'password', $idGenerator, $dateTimeFactory);
+        $user = new User('test@test.ru', 'Adam Smith', 1, 'password', '127.0.0.1', $idGenerator, $dateTimeFactory);
 
         $entities = [
             $user
