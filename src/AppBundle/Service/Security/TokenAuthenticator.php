@@ -18,7 +18,6 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
  */
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
-
     public const TOKEN_HEADER = 'AUTH-TOKEN';
 
     /** @var UserRepository */

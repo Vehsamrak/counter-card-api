@@ -1,8 +1,3 @@
-# Old Symfony directories
-app/bootstrap.php.cache
-app/cache/*
-app/logs/*
-
 # Symfony directories
 app/phpunit.xml
 /bin/*
@@ -37,3 +32,6 @@ bower_components/
 
 # Virtualization
 /.vagrant/
+
+# Tools
+/.php_cs.cache

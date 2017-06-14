@@ -10,7 +10,6 @@ use Tests\RestTestCase;
  */
 class AuthControllerTest extends RestTestCase
 {
-
     private const INVALID_LOGIN = 'invalid-login';
     private const INVALID_PASSWORD = 'invalid-password';
     private const VALID_EMAIL = 'test@test.ru';

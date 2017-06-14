@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class MandatoryParameterMissedResponse extends JsonResponse
 {
-
     public function __construct(string $message = 'Mandatory parameter missed.')
     {
         $data = new JsonErrorMessage($message);

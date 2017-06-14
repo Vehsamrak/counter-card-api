@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class AbstractRestController extends Controller
 {
-
     const FORMAT_JSON = 'json';
 
     public function respond($response): Response

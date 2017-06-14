@@ -21,8 +21,7 @@ class UserRegistrator
     public function __construct(
         UserRepository $userRepository,
         IdGenerator $idGenerator
-    )
-    {
+    ) {
         $this->userRepository = $userRepository;
         $this->idGenerator = $idGenerator;
     }
@@ -33,7 +32,7 @@ class UserRegistrator
     public function registerUser(string $email, string $name, int $flatNumber, string $password, string $userIp): User
     {
         if ($this->userRepository->findOneByEmailOrFlatNumber($email, $flatNumber)) {
-        	throw new UserExists();
+            throw new UserExists();
         }
 
         $usersWithSameIp = $this->userRepository->findByIp($userIp);

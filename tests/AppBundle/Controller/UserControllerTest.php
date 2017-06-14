@@ -10,7 +10,6 @@ use Tests\RestTestCase;
  */
 class UserControllerTest extends RestTestCase
 {
-
     const FIRST_USER_ID = 'first-user';
     const FIRST_USER_NAME = 'Adam Smith';
     const FIRST_USER_EMAIL = 'test@test.ru';

@@ -7,7 +7,6 @@ namespace AppBundle\Service\DateTimeFactory;
  */
 class DateTimeFactory
 {
-
     public function getCurrentDateAndTime(): \DateTimeImmutable
     {
         return new \DateTimeImmutable();

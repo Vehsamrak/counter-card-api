@@ -5,7 +5,6 @@ use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
 {
-
     public const ENVIRONMENT_PRODUCTION = 'prod';
     public const ENVIRONMENT_DEV = 'dev';
     public const ENVIRONMENT_TEST = 'test';

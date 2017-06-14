@@ -42,8 +42,7 @@ class CardFixture implements FixtureInterface
 
     public static function createIdGeneratorThatReturns(string $id)
     {
-        return new class($id) extends IdGenerator
-        {
+        return new class($id) extends IdGenerator {
             private $id;
 
             public function __construct(string $id)
@@ -60,8 +59,7 @@ class CardFixture implements FixtureInterface
 
     public static function createDateTimeFactoryThatReturns(string $formattedDateTime)
     {
-        return new class($formattedDateTime) extends DateTimeFactory
-        {
+        return new class($formattedDateTime) extends DateTimeFactory {
             private $formattedDateTime;
 
             public function __construct(string $formattedDateTime)

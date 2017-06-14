@@ -66,7 +66,7 @@ class AuthController extends AbstractRestController
             $user = $userRepository->findOneByLoginAndPassword($login, $password);
 
             if (!$user) {
-            	$result = new NotAllowedResponse('Invalid login and password.');
+                $result = new NotAllowedResponse('Invalid login and password.');
             } else {
                 $newToken = $this->get('id_generator')->generateString();
                 $user->updateToken($newToken);

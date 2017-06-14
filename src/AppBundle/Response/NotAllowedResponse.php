@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class NotAllowedResponse extends JsonResponse
 {
-
     public function __construct(string $message = 'Action not allowed.')
     {
         $data = new JsonErrorMessage($message);

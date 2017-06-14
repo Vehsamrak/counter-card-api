@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class NotFoundResponse extends JsonResponse
 {
-
     public function __construct(JsonErrorMessage $data = null)
     {
         if (null === $data) {

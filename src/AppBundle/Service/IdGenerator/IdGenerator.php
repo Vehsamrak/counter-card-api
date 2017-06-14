@@ -9,7 +9,6 @@ use Ramsey\Uuid\Uuid;
  */
 class IdGenerator
 {
-
     public function generateUuid(): string
     {
         return Uuid::uuid4()->toString();

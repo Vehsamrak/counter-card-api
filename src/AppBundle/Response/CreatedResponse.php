@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class CreatedResponse extends JsonResponse
 {
-
     public function __construct($data = null)
     {
         parent::__construct('', self::HTTP_CREATED);

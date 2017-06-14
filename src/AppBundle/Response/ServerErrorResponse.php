@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class ServerErrorResponse extends JsonResponse
 {
-
     public function __construct(int $statusCode, string $message = 'Server error.')
     {
         parent::__construct('', $statusCode, []);

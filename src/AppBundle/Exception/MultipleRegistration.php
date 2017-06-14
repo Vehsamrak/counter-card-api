@@ -7,5 +7,4 @@ namespace AppBundle\Exception;
  */
 class MultipleRegistration extends \DomainException
 {
-
 }

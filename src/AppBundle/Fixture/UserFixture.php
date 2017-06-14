@@ -34,8 +34,7 @@ class UserFixture implements FixtureInterface
 
     private function createDateTimeFactoryThatReturns(string $formattedDateTime)
     {
-        return new class($formattedDateTime) extends DateTimeFactory
-        {
+        return new class($formattedDateTime) extends DateTimeFactory {
             private $formattedDateTime;
 
             public function __construct(string $formattedDateTime)
@@ -52,8 +51,7 @@ class UserFixture implements FixtureInterface
 
     private function createIdGeneratorThatReturns(string $id)
     {
-        return new class($id) extends IdGenerator
-        {
+        return new class($id) extends IdGenerator {
             private $id;
 
             public function __construct(string $id)

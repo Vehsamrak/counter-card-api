@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class AlreadyExistsResponse extends JsonResponse
 {
-
     public function __construct(string $message)
     {
         $data = new JsonErrorMessage($message);
