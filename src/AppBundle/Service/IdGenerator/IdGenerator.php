@@ -22,7 +22,7 @@ class IdGenerator
 
         while ($chunksNumber > 0) {
             $chunksNumber--;
-            $hashString = sprintf('%s%04x', $hashString, mt_rand(0, 0xffff));
+            $hashString = sprintf('%s%04x', $hashString, random_int(0, 0xffff));
         }
 
         return substr($hashString, 0, $length);
