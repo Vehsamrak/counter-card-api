@@ -28,6 +28,7 @@ class UserRegistrator
 
     /**
      * @throws UserExists
+     * @throws MultipleRegistration
      */
     public function registerUser(string $email, string $name, int $flatNumber, string $password, string $userIp): User
     {

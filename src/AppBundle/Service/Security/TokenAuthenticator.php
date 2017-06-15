@@ -82,19 +82,19 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     }
 
     /** {@inheritDoc} */
-    public function checkCredentials($credentials, UserInterface $user)
+    public function checkCredentials($credentials, UserInterface $user): bool
     {
         return true;
     }
 
     /** {@inheritDoc} */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
     {
         return null;
     }
 
     /** {@inheritDoc} */
-    public function supportsRememberMe()
+    public function supportsRememberMe(): bool
     {
         return false;
     }
