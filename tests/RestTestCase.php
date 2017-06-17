@@ -18,7 +18,7 @@ abstract class RestTestCase extends WebTestCase
     protected $httpClient;
 
     /** {@inheritDoc} */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->httpClient = $this->makeClient(
             false,
@@ -30,40 +30,40 @@ abstract class RestTestCase extends WebTestCase
     }
 
     /** {@inheritDoc} */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->httpClient = null;
         parent::tearDown();
     }
 
-    protected function followRedirects()
+    protected function followRedirects(): void
     {
         $this->httpClient->followRedirects();
     }
 
-    protected function sendGetRequest(string $route)
+    protected function sendGetRequest(string $route): void
     {
         $this->httpClient->request(Request::METHOD_GET, $route);
     }
 
-    protected function sendPostRequest(string $route, array $parameters = [])
+    protected function sendPostRequest(string $route, array $parameters = []): void
     {
         $this->httpClient->request(Request::METHOD_POST, $route, $parameters);
     }
 
-    protected function sendPutRequest(string $route, array $parameters = [])
+    protected function sendPutRequest(string $route, array $parameters = []): void
     {
         $this->httpClient->request(Request::METHOD_PUT, $route, $parameters);
     }
 
-    protected function sendDeleteRequest(string $route, array $parameters = [])
+    protected function sendDeleteRequest(string $route, array $parameters = []): void
     {
         $this->httpClient->request(Request::METHOD_DELETE, $route, $parameters);
     }
 
     /**
      * @return array|string
-     * @throws \Exception
+     * @throws \HttpResponseException
      */
     protected function getResponseContents()
     {
@@ -74,35 +74,33 @@ abstract class RestTestCase extends WebTestCase
 
         if ($jsonEncodedResponseContent) {
             return $jsonEncodedResponseContent;
-        } elseif ($responseContents) {
-            throw new \Exception('Response contents: "' . $responseContents . '"');
-        } else {
-            return $responseContents;
         }
+
+        if (!$responseContents) {
+            throw new \HttpResponseException('Response contents is empty.');
+        }
+
+        return $responseContents;
     }
 
     protected function getResponseCode(): int
     {
-        return $this->getResponse()->getStatusCode();
+        $response = $this->getResponse();
+
+        return $response->getStatusCode();
     }
 
-    /**
-     * @return Response|null
-     */
-    protected function getResponse()
+    protected function getResponse(): ?Response
     {
         return $this->httpClient->getResponse();
     }
 
-    /**
-     * @return string|null
-     */
-    protected function getResponseLocation()
+    protected function getResponseLocation(): ?string
     {
         return $this->getResponse()->headers->get('Location');
     }
 
-    protected function setAuthToken(string $token)
+    protected function setAuthToken(string $token): void
     {
         $this->httpClient->setServerParameter('HTTP_AUTH_TOKEN', $token);
     }
@@ -116,9 +114,8 @@ abstract class RestTestCase extends WebTestCase
     {
         $repository = $this->getContainer()->get('doctrine.orm.entity_manager')->getRepository($entityClass);
         $allEntities = $repository->findAll();
-        $entity = array_pop($allEntities);
 
-        return $entity;
+        return array_pop($allEntities);
     }
 
     public function assertHttpCode(int $expectedStatusCode)
