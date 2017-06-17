@@ -9,6 +9,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class NotFoundResponse extends JsonResponse
 {
+    /**
+     * @inheritDoc
+     * @throws \InvalidArgumentException
+     */
     public function __construct(JsonErrorMessage $data = null)
     {
         if (null === $data) {
@@ -17,6 +21,6 @@ class NotFoundResponse extends JsonResponse
 
         parent::__construct('', 404, []);
 
-        return $this->setData($data);
+        $this->setData($data);
     }
 }

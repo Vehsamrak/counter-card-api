@@ -15,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Security("has_role('ROLE_USER')")
@@ -27,7 +28,7 @@ class CardController extends AbstractRestController
      * @Method("POST")
      * @return MandatoryParameterMissedResponse|JsonResponse
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): Response
     {
         $waterHot = $this->formatFloatNumber($request->get('waterHot'));
         $waterCold = $this->formatFloatNumber($request->get('waterCold'));
@@ -66,7 +67,7 @@ class CardController extends AbstractRestController
      * @Method("GET")
      * @return JsonResponse
      */
-    public function listAction()
+    public function listAction(): Response
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -85,9 +86,8 @@ class CardController extends AbstractRestController
     /**
      * @Route("/card/last", name="api_last_card")
      * @Method("GET")
-     * @return JsonResponse
      */
-    public function lastAction()
+    public function lastAction(): Response
     {
         $cardRepository = $this->get('counter_card.card_repository');
         $card = $cardRepository->findLastForUser($this->getUser()->getId());
@@ -105,6 +105,6 @@ class CardController extends AbstractRestController
      */
     private function formatFloatNumber($rawFloatNumber): float
     {
-        return floatval(str_replace(',', '.', $rawFloatNumber));
+        return (float) str_replace(',', '.', $rawFloatNumber);
     }
 }

@@ -25,7 +25,7 @@ class CardControllerTest extends RestTestCase
     const VALID_ELECTRICITY_NIGHT = 4.4;
     const INVALID_PARAMETER = 'string';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->loadFixtures(
@@ -180,9 +180,9 @@ class CardControllerTest extends RestTestCase
         ];
     }
 
-    private function givenCardCreatedDaysAgoByUser(int $daysAgo, string $userId)
+    private function givenCardCreatedDaysAgoByUser(int $daysAgo, string $userId): void
     {
-        $ago20Days = (new \DateTime(sprintf('-%s days', $daysAgo)))->format(DATE_ISO8601);
+        $ago20Days = (new \DateTime(sprintf('-%s days', $daysAgo)))->format(DATE_ATOM);
 
         $userRepository = $this->getContainer()->get('counter_card.user_repository');
         $cardRepository = $this->getContainer()->get('counter_card.card_repository');
@@ -198,9 +198,9 @@ class CardControllerTest extends RestTestCase
         $cardRepository->flush($card);
     }
 
-    private function givenCardCreatedInCurrentMonthByUser(string $userId)
+    private function givenCardCreatedInCurrentMonthByUser(string $userId): void
     {
-        $firstDayOfCurrentMonth = date('Y-m-01\TH:i:sO');
+        $firstDayOfCurrentMonth = date('Y-m-01\TH:i:sP');
 
         $userRepository = $this->getContainer()->get('counter_card.user_repository');
         $cardRepository = $this->getContainer()->get('counter_card.card_repository');
