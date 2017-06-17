@@ -32,7 +32,8 @@ class Mailer
             // TODO[petr]: move to configuration parameters
                                  ->setFrom('developesque@gmail.com')
             // TODO[petr]: move to configuration parameters
-                                 ->setTo('atlanta64k9@yandex.ru')
+                                 ->setTo('smonkl@bk.ru')
+//                                 ->setTo('atlanta64k9@yandex.ru')
                                  ->setBcc($userEmail)
                                  ->setBody(
                                      $this->twig->render(
