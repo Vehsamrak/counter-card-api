@@ -17,7 +17,8 @@ class AuthControllerTest extends RestTestCase
     private const AUTH_TOKEN = 'test-token';
     private const VALID_FLAT_NUMBER = 1;
 
-    protected function setUp()
+    /** {@inheritDoc} */
+    protected function setUp(): void
     {
         $this->httpClient = $this->makeClient();
         $this->loadFixtures(

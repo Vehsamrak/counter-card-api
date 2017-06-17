@@ -21,8 +21,6 @@ class CardControllerTest extends RestTestCase
     const CARD_ID = '1';
     const VALID_WATER_HOT = 1.1;
     const VALID_WATER_COLD = 2.2;
-    const VALID_ELECTRICITY_DAY = 3.3;
-    const VALID_ELECTRICITY_NIGHT = 4.4;
     const INVALID_PARAMETER = 'string';
 
     protected function setUp(): void
@@ -100,13 +98,11 @@ class CardControllerTest extends RestTestCase
         $this->assertHttpCode(200);
         $this->assertEquals(
             [
-                'id'               => self::CARD_ID,
-                'createdAt'        => 1464968880,
-                'waterCold'        => self::VALID_WATER_COLD,
-                'waterHot'         => self::VALID_WATER_HOT,
-                'electricityDay'   => self::VALID_ELECTRICITY_DAY,
-                'electricityNight' => self::VALID_ELECTRICITY_NIGHT,
-                'creator'          => [
+                'id'        => self::CARD_ID,
+                'createdAt' => 1464968880,
+                'waterCold' => self::VALID_WATER_COLD,
+                'waterHot'  => self::VALID_WATER_HOT,
+                'creator'   => [
                     'id'               => self::FIRST_USER_ID,
                     'name'             => self::FIRST_USER_NAME,
                     'email'            => self::FIRST_USER_EMAIL,
@@ -132,10 +128,8 @@ class CardControllerTest extends RestTestCase
         return [
             [
                 [
-                    'waterHot'         => self::VALID_WATER_HOT,
-                    'waterCold'        => self::VALID_WATER_COLD,
-                    'electricityDay'   => self::VALID_ELECTRICITY_DAY,
-                    'electricityNight' => self::VALID_ELECTRICITY_NIGHT,
+                    'waterHot'  => self::VALID_WATER_HOT,
+                    'waterCold' => self::VALID_WATER_COLD,
                 ],
             ],
         ];
@@ -147,34 +141,20 @@ class CardControllerTest extends RestTestCase
             [[]],
             [
                 [
-                    'waterHot'         => self::INVALID_PARAMETER,
-                    'waterCold'        => self::VALID_WATER_COLD,
-                    'electricityDay'   => self::VALID_ELECTRICITY_DAY,
-                    'electricityNight' => self::VALID_ELECTRICITY_NIGHT,
+                    'waterHot'  => self::INVALID_PARAMETER,
+                    'waterCold' => self::VALID_WATER_COLD,
                 ],
             ],
             [
                 [
-                    'waterHot'         => self::VALID_WATER_HOT,
-                    'waterCold'        => self::INVALID_PARAMETER,
-                    'electricityDay'   => self::VALID_ELECTRICITY_DAY,
-                    'electricityNight' => self::VALID_ELECTRICITY_NIGHT,
+                    'waterHot'  => self::VALID_WATER_HOT,
+                    'waterCold' => self::INVALID_PARAMETER,
                 ],
             ],
             [
                 [
-                    'waterHot'         => self::VALID_WATER_HOT,
-                    'waterCold'        => self::VALID_WATER_COLD,
-                    'electricityDay'   => self::INVALID_PARAMETER,
-                    'electricityNight' => self::VALID_ELECTRICITY_NIGHT,
-                ],
-            ],
-            [
-                [
-                    'waterHot'         => self::VALID_WATER_HOT,
-                    'waterCold'        => self::VALID_WATER_COLD,
-                    'electricityDay'   => self::VALID_ELECTRICITY_DAY,
-                    'electricityNight' => self::INVALID_PARAMETER,
+                    'waterHot'  => self::INVALID_PARAMETER,
+                    'waterCold' => self::INVALID_PARAMETER,
                 ],
             ],
         ];
@@ -189,7 +169,7 @@ class CardControllerTest extends RestTestCase
         $user = $userRepository->find($userId);
 
         $card = new Card(
-            $user, 1.1, 2.2, 3.3, 4.4,
+            $user, 1.1, 2.2,
             CardFixture::createIdGeneratorThatReturns(Uuid::uuid4()),
             CardFixture::createDateTimeFactoryThatReturns($ago20Days)
         );
@@ -207,7 +187,7 @@ class CardControllerTest extends RestTestCase
         $user = $userRepository->find($userId);
 
         $card = new Card(
-            $user, 1.1, 2.2, 3.3, 4.4,
+            $user, 1.1, 2.2,
             CardFixture::createIdGeneratorThatReturns(Uuid::uuid4()),
             CardFixture::createDateTimeFactoryThatReturns($firstDayOfCurrentMonth)
         );

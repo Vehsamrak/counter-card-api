@@ -13,7 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Card
 {
-
     /**
      * @var string
      * @ORM\Column(name="id", type="string")
@@ -40,21 +39,6 @@ class Card
     private $waterHot;
 
     /**
-     * @var float
-     * @ORM\Column(name="electricity_day", type="float")
-     */
-    private $electricityDay;
-
-    /**
-     * @var float
-     * @ORM\Column(name="electricity_night", type="float")
-     */
-    private $electricityNight;
-
-    /** @var DateTimeFactory */
-    private $dateTimeFactory;
-
-    /**
      * @var User
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="cards")
      * @ORM\JoinColumn(name="creator", referencedColumnName="id")
@@ -65,20 +49,16 @@ class Card
         User $creator,
         float $waterHot,
         float $waterCold,
-        float $electricityDay,
-        float $electricityNight,
         IdGenerator $idGenerator = null,
         DateTimeFactory $dateTimeFactory = null
     ) {
         $idGenerator = $idGenerator ?: new IdGenerator();
-        $this->dateTimeFactory = $dateTimeFactory ?? new DateTimeFactory();
+        $dateTimeFactory = $dateTimeFactory ?? new DateTimeFactory();
         $this->id = $idGenerator->generateUuid();
-        $this->createdAt = $this->dateTimeFactory->getCurrentDateAndTime();
+        $this->createdAt = $dateTimeFactory->getCurrentDateAndTime();
         $this->creator = $creator;
         $this->waterCold = $waterCold;
         $this->waterHot = $waterHot;
-        $this->electricityDay = $electricityDay;
-        $this->electricityNight = $electricityNight;
     }
 
     public function getId(): string
@@ -120,25 +100,5 @@ class Card
     public function setWaterHot(float $waterHot): void
     {
         $this->waterHot = $waterHot;
-    }
-
-    public function getElectricityDay(): float
-    {
-        return $this->electricityDay;
-    }
-
-    public function setElectricityDay(float $electricityDay): void
-    {
-        $this->electricityDay = $electricityDay;
-    }
-
-    public function getElectricityNight(): float
-    {
-        return $this->electricityNight;
-    }
-
-    public function setElectricityNight(float $electricityNight): void
-    {
-        $this->electricityNight = $electricityNight;
     }
 }

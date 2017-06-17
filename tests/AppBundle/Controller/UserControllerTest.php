@@ -16,7 +16,8 @@ class UserControllerTest extends RestTestCase
     const FIRST_USER_FLAT_NUMBER = 1;
     const FIRST_USER_REGISTRATION_DATE = 1496502000;
 
-    protected function setUp()
+    /** {@inheritDoc} */
+    protected function setUp(): void
     {
         parent::setUp();
         $this->loadFixtures(
@@ -27,7 +28,7 @@ class UserControllerTest extends RestTestCase
     }
 
     /** @test */
-    public function GET_user_200AndCurrentUserData()
+    public function GET_user_200AndCurrentUserData(): void
     {
         $this->sendGetRequest('/api/user');
 

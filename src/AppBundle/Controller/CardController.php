@@ -32,10 +32,8 @@ class CardController extends AbstractRestController
     {
         $waterHot = $this->formatFloatNumber($request->get('waterHot'));
         $waterCold = $this->formatFloatNumber($request->get('waterCold'));
-        $electricityDay = $this->formatFloatNumber($request->get('electricityDay'));
-        $electricityNight = $this->formatFloatNumber($request->get('electricityNight'));
 
-        if ($waterHot && $waterCold && $electricityDay && $electricityNight) {
+        if ($waterHot && $waterCold) {
             /** @var User $creator */
             $creator = $this->getUser();
             $cardRepository = $this->get('counter_card.card_repository');
@@ -46,7 +44,7 @@ class CardController extends AbstractRestController
             if ($lastCard && $lastCard->getCreatedAt() > $firstDayOfCurrentMonth) {
                 $response = new NotAllowedResponse();
             } else {
-                $card = new Card($creator, $waterHot, $waterCold, $electricityDay, $electricityNight);
+                $card = new Card($creator, $waterHot, $waterCold);
                 $cardRepository->persist($card);
                 $cardRepository->flush();
 
