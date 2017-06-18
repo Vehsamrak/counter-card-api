@@ -108,6 +108,7 @@ class CardControllerTest extends RestTestCase
                     'email'            => self::FIRST_USER_EMAIL,
                     'flatNumber'       => self::FIRST_USER_FLAT_NUMBER,
                     'registrationDate' => self::FIRST_USER_REGISTRATION_DATE,
+                    'isConfirmed'      => true,
                 ],
             ],
             $this->getResponseContents()

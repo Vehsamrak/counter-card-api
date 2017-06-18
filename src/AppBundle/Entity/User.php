@@ -55,17 +55,23 @@ class User implements UserInterface
 
     /**
      * @var string
-     * @ORM\Column(name="password", type="string", length=32, unique=false)
+     * @ORM\Column(name="password", type="string", length=32)
      * @Serializer\Exclude
      */
     private $password;
 
     /**
      * @var string
-     * @ORM\Column(name="ip", type="string", length=16, unique=false)
+     * @ORM\Column(name="ip", type="string", length=16)
      * @Serializer\Exclude
      */
     private $ip;
+
+    /**
+     * @var boolean
+     * @ORM\Column(name="is_confirmed", type="boolean")
+     */
+    private $isConfirmed;
 
     /**
      * @var \DateTime
@@ -112,6 +118,7 @@ class User implements UserInterface
         $this->password = md5($password);
         $this->ip = $userIp;
         $this->cards = new ArrayCollection();
+        $this->isConfirmed = false;
     }
 
     public function getId(): string
@@ -152,7 +159,7 @@ class User implements UserInterface
     }
 
     /** {@inheritDoc} */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
     }
 
@@ -175,5 +182,10 @@ class User implements UserInterface
     public function getFlatNumber(): int
     {
         return $this->flatNumber;
+    }
+
+    public function confirm(): void
+    {
+        $this->isConfirmed = true;
     }
 }

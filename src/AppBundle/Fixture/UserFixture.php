@@ -20,6 +20,7 @@ class UserFixture implements FixtureInterface
         $idGenerator = $this->createIdGeneratorThatReturns('first-user');
 
         $user = new User('test@test.ru', 'Adam Smith', 1, 'password', '127.0.0.1', $idGenerator, $dateTimeFactory);
+        $user->confirm();
 
         $entities = [
             $user
