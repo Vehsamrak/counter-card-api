@@ -48,8 +48,8 @@ class CardController extends AbstractRestController
                 $cardRepository->persist($card);
                 $cardRepository->flush();
 
-                $mailer = $this->get('mailer');
-                $mailer->sendCardByMail($card, $this->getUser());
+//                $mailer = $this->get('mailer');
+//                $mailer->sendCardByMail($card, $this->getUser());
 
                 $response = new CreatedResponse($card->getId());
             }
