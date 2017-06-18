@@ -48,8 +48,14 @@ class CardController extends AbstractRestController
                 $cardRepository->persist($card);
                 $cardRepository->flush();
 
-//                $mailer = $this->get('mailer');
-//                $mailer->sendCardByMail($card, $this->getUser());
+                $mailer = $this->get('mailer');
+
+                try {
+                    $mailer->sendCardByMail($card);
+                } catch (\Exception $exception) {
+                    $logger = $this->get('logger');
+                    $logger->error(sprintf('Card with id %s was not sent!', $card->getId()));
+                }
 
                 $response = new CreatedResponse($card->getId());
             }

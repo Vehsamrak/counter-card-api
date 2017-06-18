@@ -3,7 +3,6 @@
 namespace AppBundle\Service\Mailer;
 
 use AppBundle\Entity\Card;
-use AppBundle\Entity\User;
 
 /**
  * @author Vehsamrak
@@ -22,29 +21,36 @@ class Mailer
         $this->twig = $twig;
     }
 
-    public function sendCardByMail(Card $card, User $user): void
+    /**
+     * @param Card $card
+     * @param string $email
+     */
+    public function sendCardByMail(Card $card): void
     {
-        $flatNumber = $user->getFlatNumber();
-        $userEmail = $user->getEmail();
+        $creator = $card->getCreator();
+        $flatNumber = $creator->getFlatNumber();
+        $creatorEmail = $creator->getEmail();
+        $message = \Swift_Message::newInstance();
+        $message->setSubject(sprintf('Показания счетчиков квартиры №%d', $flatNumber));
+        $message->setFrom('developesque@gmail.com'); // TODO[petr]: get from configuration parameters
+        $message->setBody(
+            $this->twig->render(
+                'AppBundle:Mail:counterCard.html.twig',
+                [
+                    'card'       => $card,
+                    'flatNumber' => $flatNumber,
+                ]
+            ),
+            'text/html'
+        );
 
-        $message = \Swift_Message::newInstance()
-                                 ->setSubject(sprintf('Показания счетчиков квартиры №%d', $flatNumber))
-            // TODO[petr]: move to configuration parameters
-                                 ->setFrom('developesque@gmail.com')
-            // TODO[petr]: move to configuration parameters
-                                 ->setTo('smonkl@bk.ru')
-//                                 ->setTo('atlanta64k9@yandex.ru')
-                                 ->setBcc($userEmail)
-                                 ->setBody(
-                                     $this->twig->render(
-                                         'AppBundle:Mail:counterCard.html.twig',
-                                         [
-                                             'card'       => $card,
-                                             'flatNumber' => $flatNumber,
-                                         ]
-                                     ),
-                                     'text/html'
-                                 );
+        if ($creator->isConfirmed()) {
+            // TODO[petr]: move company email to configuration parameters
+            $message->setTo('atlanta64k9@yandex.ru');
+            $message->setBcc($creatorEmail);
+        } else {
+            $message->setTo('developesque@gmail.com');
+        }
 
         $this->swiftMailer->send($message);
     }

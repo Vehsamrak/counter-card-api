@@ -101,4 +101,9 @@ class Card
     {
         $this->waterHot = $waterHot;
     }
+
+    public function getCreator(): User
+    {
+        return $this->creator;
+    }
 }

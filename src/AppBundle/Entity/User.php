@@ -188,4 +188,9 @@ class User implements UserInterface
     {
         $this->isConfirmed = true;
     }
+
+    public function isConfirmed(): bool
+    {
+        return $this->isConfirmed;
+    }
 }

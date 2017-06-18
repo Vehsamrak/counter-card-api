@@ -62,7 +62,7 @@ swiftmailer:
     encryption: '%mailer_encryption%'
     auth_mode: '%mailer_auth_mode%'
     # Insurance while beta testing
-    delivery_addresses: ['smonkl@bk.ru']
+#    delivery_addresses: ['smonkl@bk.ru']
 
 jms_serializer:
     handlers:
