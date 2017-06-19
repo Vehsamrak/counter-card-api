@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
-    private const TOKEN_LENGTH = 32;
+    public const TOKEN_LENGTH = 32;
     private const ROLE_USER = 'ROLE_USER';
 
     /**

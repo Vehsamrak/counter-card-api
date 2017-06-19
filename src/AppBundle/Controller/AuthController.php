@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Controller\Infrastructure\AbstractRestController;
+use AppBundle\Entity\User;
 use AppBundle\Exception\MultipleRegistration;
 use AppBundle\Exception\UserExists;
 use AppBundle\Response\AlreadyExistsResponse;
@@ -68,7 +69,7 @@ class AuthController extends AbstractRestController
             if (!$user) {
                 $result = new NotAllowedResponse('Invalid login and password.');
             } else {
-                $newToken = $this->get('id_generator')->generateString();
+                $newToken = $this->get('id_generator')->generateString(User::TOKEN_LENGTH);
                 $user->updateToken($newToken);
                 $userRepository->flush($user);
 
