@@ -60,8 +60,8 @@ class AuthControllerTest extends RestTestCase
         $this->sendPostRequest('/api/login', $parameters);
 
         $this->assertHttpCode(200);
-        // exactly 8 any characters
-        $this->assertRegExp('/^.{8}$/', $this->getResponseContents());
+        // exactly 32 any characters
+        $this->assertRegExp('/^.{32}$/', $this->getResponseContents());
         $this->assertNotEquals(self::AUTH_TOKEN, $this->getResponseContents());
     }
 
@@ -76,8 +76,8 @@ class AuthControllerTest extends RestTestCase
         $this->sendPostRequest('/api/login', $parameters);
 
         $this->assertHttpCode(200);
-        // exactly 8 any characters
-        $this->assertRegExp('/^.{8}$/', $this->getResponseContents());
+        // exactly 32 any characters
+        $this->assertRegExp('/^.{32}$/', $this->getResponseContents());
         $this->assertNotEquals(self::AUTH_TOKEN, $this->getResponseContents());
     }
 }
