@@ -39,7 +39,6 @@ class User implements UserInterface
      */
     private $email;
 
-
     /**
      * @var integer
      * @ORM\Column(name="flat", type="smallint", length=5, unique=true)
