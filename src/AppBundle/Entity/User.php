@@ -118,7 +118,7 @@ class User implements UserInterface
         $this->password = md5($password);
         $this->ip = $userIp;
         $this->cards = new ArrayCollection();
-        $this->isConfirmed = false;
+        $this->isConfirmed = true;
     }
 
     public function getId(): string
