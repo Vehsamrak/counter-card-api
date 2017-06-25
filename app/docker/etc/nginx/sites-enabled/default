@@ -3,6 +3,11 @@ server {
 	root			/project/web;
 
 	location / {
+        return 200 'frontend';
+        add_header Content-Type text/plain;
+    }
+
+    location /api/ {
         try_files $uri /app.php$is_args$args;
     }
 
