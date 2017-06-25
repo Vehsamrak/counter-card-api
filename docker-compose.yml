@@ -1,0 +1,14 @@
+version: '2'
+services:
+  api:
+    container_name: counter-card-api
+    build: .
+    image: counter-card:2.0.0
+    ports:
+     - "8000:80"
+    volumes:
+     - .:/project
+    depends_on:
+      - database
+  database:
+    image: "mysql:5.7"

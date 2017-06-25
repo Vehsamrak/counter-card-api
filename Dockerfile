@@ -3,7 +3,7 @@ MAINTAINER Petr Karmashev <smonkl@bk.ru>
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update &&
+RUN apt-get update && \
     apt-get install -y --force-yes \
     git \
     curl \
