@@ -9,6 +9,7 @@ RUN apt-get update && \
     apt-get install -y --allow-unauthenticated \
     git \
     curl \
+    mc \
     nginx \
     php7.1-cli \
     php7.1-curl \
