@@ -11,7 +11,7 @@ service php7.1-fpm start
 
 echo "Installing composer dependencies ..."
 cd /project
-/composer.phar install
+composer install
 
 /project/bin/console --env=prod ca:cl
 /project/bin/console --env=dev ca:cl
