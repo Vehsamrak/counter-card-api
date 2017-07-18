@@ -10,7 +10,6 @@ git stash pop
 
 echo "Installing composer dependencies ..."
 ~/composer.phar install
-
 bin/console --env=prod ca:cl
 
 echo "Database migration ..."
